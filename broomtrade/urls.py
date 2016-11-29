@@ -26,5 +26,8 @@ urlpatterns = [
     url(r'^logout/', logout, {'template_name': 'logout.html'}, name='logout'),
     url(r'^main/', include('main.urls')),
     url(r'^guestbook/', include('guestbook.urls')),
+    url(r'^categories/', include('categories.urls')),
+    url(r'^news/', include('news.urls')),
+    url(r'^imagepool/', include('imagepool.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

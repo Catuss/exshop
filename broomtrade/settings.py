@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     'precise_bbcode',
     'main',
     'guestbook',
+    'news',
+    'imagepool',
+    'categories',
 ]
 
 MIDDLEWARE = [

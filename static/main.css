@@ -79,6 +79,7 @@
 .form {
     width: 400px;
     margin: 20px 0px 20px 0px;
+    border-collapse: collapse;
     }
 
 .bottom-indent {
@@ -93,6 +94,7 @@
 
 .guestbook .user {
     font-weigth: bold;
+    
     }
 
 .guestbook .posted {
@@ -129,3 +131,56 @@
     text-align: center;
     }
 
+.posted {
+    font-style: italic;
+    text-align: right;
+    }
+
+.buttons {
+    text-align: right;
+    }
+
+#imagepool_output {
+    display: none;
+    }
+
+#imagepool_image_list {
+    margin-top: 60px;
+    }
+
+#imagepool_image_list td {
+    text-align: center;
+    width: 160px;
+    heigth: 120px;
+    }
+
+#imagepool_image_list td.link {
+    font-size: xx-large;
+    width: 20px;
+    }
+
+#imagepool_image_list td img {
+    max-width: 160px;
+    max-heigth: 100px;
+    }
+
+#imagepool_image_list td a:link, #imagepool_image_list td a:visited,
+#imagepool_image_list td a:active, #imagepool_image_list td a:hover{
+    text-decoration: none;
+    }
+
+#imagepool_image_list td a.disabled:link,
+#imagepool_image_list td a.disabled:visited,
+#imagepool_image_list td a.disabled:active,
+#imagepool_image_list td a.disabled:hover,{
+    display: none;
+    }
+
+.form th, .form td {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    }
+
+.form th:first-child, .form td:first-child {
+    display: none;
+    }

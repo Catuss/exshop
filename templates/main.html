@@ -9,18 +9,38 @@
 </div>
 <div id="leftmenu">
     <ul>
+
+        {# Сылка на главную страницу #}
         {% url 'main' as page_url %}
         <li>
             <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
                 Главная
             </a>
-        </li>        {% url 'guestbook' as page_url %}
+        </li>
+
+        {# Сылка на страницу с новостями #}
+        {% url 'news_index' as page_url %}
         <li>
             <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
-                Гостевая
+                Новости
             </a>
         </li>
+
+        {# Сылка на гостевую книгу #}
+        {% url 'guestbook' as page_url %}
+        <li>
+        <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
+        Гостевая
+        </a>
+        </li>
+
         {% if user.is_authenticated %}
+        {% url 'categories_edit' as page_url %}
+        <li>
+        <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
+        Категории
+        </a>
+        </li>
             <li class="indented"><a href="/admin/">Админка</a></li>
             <li class="indented"><a href="{% url 'logout' %}">Выйти</a></li>
         {% endif %}

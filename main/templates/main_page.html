@@ -5,5 +5,12 @@
     <p>Фирма &quot;Веник-торг&quot; продает все необходимое для уборки помещений различного назначения:
      веники, щетки, метлы, совки и прочее.</p>
     <h3>Новости</h3>
+        {% for object in news %}
+            <h4><a href="{% url 'news_detail' pk=object.pk %}">
+                {{ object.title }}
+            </a></h4>
+            <p>{{ object.description }}</p>
+            <p class="posted">{{ object.posted|date:'j.m.Y.H:i:s' }}</p>
+        {% endfor %}
     <h3>Рекомендуемые товары</h3>
 {% endblock %}
