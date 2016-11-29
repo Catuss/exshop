@@ -1,0 +1,131 @@
+@charset 'utf-8'
+#header {
+    text-align: center;
+    border_bottom: 1px #cccccc solid;
+    }
+
+#header h1 {
+    margin: 20px 0px 20px 0px;
+    letter-spacing: 0.2em;
+    }
+
+#leftmenu {
+    float: left;
+    width: 100px;
+    padding: 10px;
+    }
+
+#leftmenu ul {
+    margin: 0px;
+    padding: 0px;
+    }
+
+#leftmenu ul li {
+    font-size: larger;
+    list-style-type: none;
+    margin: 0px 10px 10px 0px;
+    }
+
+#leftmenu ul li a {
+    display: block;
+    }
+
+#leftmenu ul li.indented {
+    margin-top: 20px;
+    }
+
+#leftmenu ul li a:link, #leftmenu ul li a:visited,
+#leftmenu ul li a:active, #leftmenu ul li a:hover {
+    text-decoration: none;
+    }
+
+#leftmenu ul li a:link, #leftmenu ul li a:visited {
+    color: #0000FF;
+    background-color: #FFFFFF;
+    }
+
+#leftmenu ul li a:active, #leftmenu ul li a:hover {
+    color: #FFFFFF
+    background-color: 000000
+    }
+
+#leftmenu ul li a.current:link, #leftmenu ul li a.current:visited,
+#leftmenu ul li a.current:active, #leftmenu ul li a.current:hover {
+    color: #000000
+    background-color: #FFFFFF
+    }
+
+#main {
+    margin-left: 110px;
+    border-left: 1px #cccccc solid;
+    padding: 10px;
+    }
+
+#main h2:first-child {
+    margin: 0px 0px 10px 0px;
+    }
+
+#footer {
+    text-align: right;
+    border-top: 1px #cccccc solid;
+    padding-right: 10px;
+    }
+
+#footer p {
+    font-size: smaller;
+    font-style: italic;
+    }
+
+.form {
+    width: 400px;
+    margin: 20px 0px 20px 0px;
+    }
+
+.bottom-indent {
+    margin-bottom: 50px;
+    }
+
+.guestbook {
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #cccccc;
+    }
+
+.guestbook .user {
+    font-weigth: bold;
+    }
+
+.guestbook .posted {
+    font-style: italic;
+    text-align: right;
+    width: 200px;
+    }
+
+.guestbook .content {
+    padding-top: 20px;
+    }
+
+.honeypot {
+    display: none;
+    }
+
+#messages-list .ERROR {
+    color: #FF0000
+    }
+
+#pagination {
+    margin-top: 20px;
+    }
+
+#pagination #previous-page {
+    float: left;
+    }
+
+#pagination #next-page {
+    float: right;
+    }
+
+#pagination #num-pages {
+    text-align: center;
+    }
+

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block additional_css %}
+<link rel="stylesheet" href="{% static 'static/main.css' %}" type="text/css">
+{% endblock %}
+{% block content %}
+<div id="header">
+    <h1>Веник-Торг</h1>
+</div>
+<div id="leftmenu">
+    <ul>
+        {% url 'main' as page_url %}
+        <li>
+            <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
+                Главная
+            </a>
+        </li>        {% url 'guestbook' as page_url %}
+        <li>
+            <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
+                Гостевая
+            </a>
+        </li>
+        {% if user.is_authenticated %}
+            <li class="indented"><a href="/admin/">Админка</a></li>
+            <li class="indented"><a href="{% url 'logout' %}">Выйти</a></li>
+        {% endif %}
+    </ul>
+</div>
+<div id="main">
+    {% block main %}
+    {% endblock %}
+</div>
+<div id="footer">
+    <p>Все права принадлежат разработчикам сайта.</p>
+</div>
+{% endblock %}
