@@ -45,7 +45,7 @@ class BlogListView(PageNumberView, ArchiveIndexView, SearchMixin, CategoryListMi
                                Q(description__contains=self.search) |
                                  Q(content__contains=self.search))
         if self.tag:
-            blog = blog.filter(tags_name=self.tag)
+            blog = blog.filter(tags__name=self.tag)
         return blog
 
 

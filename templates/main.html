@@ -1,117 +1,72 @@
 {% extends 'base.html' %}
 
 {# Основной шаблон, подгрузка основных стилей, боковое меню #}
-
 {% load staticfiles %}
-{% block additional_css %}
-<link rel="stylesheet" href="{% static 'static/main.css' %}" type="text/css">
-{% endblock %}
 
 {# блок навигации #}
 {% block content %}
-<div id="header">
-    <h1>Пельменик-org</h1>
-</div>
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Пельменик-org</a>
+        </div>
+    <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+            <li class="active"><a href="{% url 'main' %}">На главную</a></li>
+            <li><a href="{% url 'about' %}">О сайте</a></li>
+            <li><a href="{% url 'news_index' %}">Новости</a></li>
+            <li><a href="{% url 'contact' %}">Контакты</a></li>
+            <li><a href="{% url 'guestbook' %}">Гостевая</a></li>
+            <li><a href="{% url 'blog_index' %}">Блог</a></li>
+        </ul>
+    </div><!--/.nav-collapse -->
+    </div>
+</nav>
+<div class="container">
+<div class="row">
+    <div class="col-md-2">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h1 class="panel-title">Категории товаров</h1>
+            </div>
+            <div class="panel-body">
 
-{# боковое меню #}
-<div id="leftmenu">
-    <ul>
+                    {% for object in categories %}
+                        <p><a href="{% url 'good_index' pk=object.pk %}">{{ object.name }}</a></p>
+                    {% endfor %}
 
-        {# Сылка на главную страницу #}
-        {% url 'main' as page_url %}
-        <li>
-            <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
-                Главная
-            </a>
-        </li>
-
-        {# Вывод ссылок на страницы товаров по категориям #}
-
-        {% for object in categories %}
-        {% url 'good_index' pk=object.pk as page_url %}
-        <li {% if forloop.first %} class="indented" {% endif %}>
-            <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
-                {{ object.name }}
-            </a>
-        </li>
-        {% endfor %}
+            </div>
+        </div>
 
 
-
-
-        {# Сылка на cтраницу "о сайте" #}
-        {% url 'news_index' as page_url %}
-        <li>
-        <a href="/flatpages/about/" {% if page_url == current_url %}class="current"{% endif %}>
-        О сайте
-        </a>
-        </li>
-
-        {# Сылка на страницу контактов #}
-        {% url 'news_index' as page_url %}
-        <li>
-        <a href="/flatpages/contact/" {% if page_url == current_url %}class="current"{% endif %}>
-        Контакты
-        </a>
-        </li>
-
-        {# Сылка на страницу "как приобрести" #}
-        {% url 'news_index' as page_url %}
-        <li>
-            <a href="/flatpages/howtobuy/" {% if page_url == current_url %}class="current"{% endif %}>
-                Как купить
-            </a>
-        </li>
-
-        {# Сылка на страницу с новостями #}
-        {% url 'news_index' as page_url %}
-        <li>
-            <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
-                Новости
-            </a>
-        </li>
-
-        {# Сылка на гостевую книгу #}
-        {% url 'guestbook' as page_url %}
-        <li>
-        <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
-        Гостевая
-        </a>
-        </li>
-
-        {# Ссылка на блог #}
-        {% url 'blog_index' as page_url %}
-        <li>
-        <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
-        Блог
-        </a>
-        </li>
-
-        {# Если пользователь вошел на сайт выводятся дополнительные ссылки #}
         {% if user.is_authenticated %}
-
-        {# ссылка на редактирование списка категорий #}
-        {% url 'categories_edit' as page_url %}
-        <li>
-        <a href="{{ page_url }}" {% if page_url == current_url %}class="current"{% endif %}>
-        Категории
-        </a>
-        </li>
-
-        {# Ссылка на админинстративный сайт Django и выход #}
-            <li class="indented"><a href="/admin/">Админка</a></li>
-            <li class="indented"><a href="{% url 'logout' %}">Выйти</a></li>
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h1 class="panel-title">служебная панель</h1>
+                </div>
+                <div class="panel-body">
+                    <p></p><a href="{% url 'categories_edit' %}">Категории</a></p>
+                    <p><a href="/admin/">Админка</a></p>
+                    <p><a href="/logout/">Выйти</a></p>
+                </div>
+            </div>
         {% endif %}
-    </ul>
-</div>
+        </div>
+
+    <div class="col-md-10">{% block main %}{% endblock %}</div>
 
 {# блок с основным контентом #}
-<div id="main">
-    {% block main %}
-    {% endblock %}
 </div>
-
-<div id="footer">
-    <p>Все права принадлежат разработчикам сайта.</p>
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted" style="float: right;">Все права принадлежат разработчикам сайта</p>
+      </div>
+    </footer>
 </div>
 {% endblock %}

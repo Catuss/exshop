@@ -1,38 +1,35 @@
 {% if paginator.num_pages > 1 %}
-    <div id="pagination">
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
         {% if page_obj.has_previous %}
-            <div id="previous-page">
+            <li>
                 <a href="?page={{ page_obj.previous_page_number }}{% if sort and order %}
                          &sort={{ sort }}&order={{ order }}{% endif %}{% if search %}&search={{ search }}
-                         {% endif %}{% if tag %}&tag={{ tag }}{% endif %}">
-                    &lt;
+                         {% endif %}{% if tag %}&tag={{ tag }}{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
                 </a>
-            </div>
+            </li>
         {% endif %}
+        {% for pn in page_obj.paginator.page_range %}
+            {% if pn == page_obj.number %}
+                <li class="disabled"><a href="?page={{ pn }}{% if sort and order %}
+                         &sort={{ sort }}&order={{ order }}{% endif %}{% if search %}&search={{ search }}
+                         {% endif %}{% if tag %}&tag={{ tag }}{% endif %}">{{pn}}</a></li>
+            {% else %}
+            <li><a href="?page={{ pn }}{% if sort and order %}
+                         &sort={{ sort }}&order={{ order }}{% endif %}{% if search %}&search={{ search }}
+                         {% endif %}{% if tag %}&tag={{ tag }}{% endif %}">{{pn}}</a></li>
+            {% endif %}
+        {% endfor %}
         {% if page_obj.has_next %}
-        <div id="next-page">
-            <a href="?page={{ page_obj.next_page_number }}{% if sort and order %}
+            <li>
+                <a href="?page={{ page_obj.next_page_number }}{% if sort and order %}
                          &sort={{ sort }}&order={{ order }}{% endif %}{% if search %}&search={{ search }}
-                         {% endif %}{% if tag %}&tag={{ tag }}{% endif %}">
-                &gt;
-            </a>
-        </div>
-        {% endif %}
-        <div id="num-pages">
-            {% for pn in page_obj.paginator.page_range %}
-                {% if not forloop.first %}
-                    &nbsp;&nbsp;|&nbsp;&nbsp;
-                {% endif %}
-            {% if page_obj.number != pn %}
-                <a href="?page={{ pn }}{% if sort and order %}
-                         &sort={{ sort }}&order={{ order }}{% endif %}{% if search %}&search={{ search }}
-                         {% endif %}{% if tag %}&tag={{ tag }}{% endif %}">
-            {% endif %}
-             {{pn}}
-            {% if page_obj.number != pn %}
+                         {% endif %}{% if tag %}&tag={{ tag }}{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&raquo;</span>
                 </a>
-            {% endif %}
-            {% endfor %}
-            </div>
-        </div>
+            </li>
+        {% endif %}
+        </ul>
+        </nav>
 {% endif %}

@@ -1,9 +1,9 @@
 {# Подключаемый шаблон вывода сообщений #}
 
 {% if messages %}
-<div id="messages-list">
+<div class="alert alert-success" role="alert">
     {% for message in messages %}
-        <p class="{{ message.tags }}">{{ message }}</p>
+        <p>{{ message }}</p>
     {% endfor %}
 </div>
 {% endif %}

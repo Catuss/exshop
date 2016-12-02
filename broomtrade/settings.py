@@ -38,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
-    'django.contrib.flatpages',
     'easy_thumbnails',
     'taggit',
     'precise_bbcode',
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     'categories',
     'goods',
     'blog',
+    'otherpage',
     
 ]
 

@@ -21,9 +21,12 @@ class Good(models.Model):
     # старое изображение удаляется
 
     def save(self, *args, **kwargs):
-        this_rec = Good.objects.get(pk=self.pk)
-        if this_rec.image != self.image:
-            this_rec.image.delete(save=False)
+        try:
+            this_rec = Good.objects.get(pk=self.pk)
+            if this_rec.image != self.image:
+                this_rec.image.delete(save=False)
+        except:
+            pass
         super(Good, self).save(*args, **kwargs)
 
     # При удалении записи, удаляется изображение
@@ -49,7 +52,10 @@ class GoodImage(models.Model):
     # Переопределение метода сохранить, для
     # предотвращения появления "мусора"
     def save(self, *args, **kwargs):
-        this_rec = GoodImage.objects.get(pk=self.pk)
-        if this_rec.image != self.image:
-            this_rec.image.delete(save=False)
+        try:
+            this_rec = GoodImage.objects.get(pk=self.pk)
+            if this_rec.image != self.image:
+                this_rec.image.delete(save=False)
+        except:
+            pass
         super(GoodImage, self).save(*args, **kwargs)

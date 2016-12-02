@@ -6,11 +6,10 @@
 
 {# Подключение шаблона сообщений #}
 {% include 'generic/messages.html' %}
-
 {# Форма поиска #}
 <div class="search-form">
-    <form action="" method="post">
-        <input type="text" id="search" name="search" value="{{ search }}">
+    <form action="" method="get">
+        <input type="text" name="search" value="{{ search }}">
         <input type="submit" value="Найти">
     </form>
 </div>
@@ -28,33 +27,31 @@
 <div class="blog-article">
 
     {# Заголовок, с ссылкой на страницу подробностей #}
-    <h4><a href="{% url 'blog_detail' pk=object.pk %}?page={{ page_obj.number}}
+    <h3><a href="{% url 'blog_detail' pk=object.pk %}?page={{ page_obj.number}}
                     {% if search %}&search={{ search }}{% endif %}
                     {% if tag %}&tag={{ tag }}{% endif %}">
         {{ object.title }}
-    </a></h4>
+    </a></h3>
+
+        {# Краткое содержание #}
+    <p>{{ object.description }}</p>
 
     {# Имя автора #}
-    <p class="username">
+    <p>
     {% if object.user.get_full_name %}
         {{ object.user.get_full_name }}
     {% else %}
         {{ object.user.get_username }}
     {% endif %}
+      :  <small>{{ object.posted|date:'Y.j.m.H:i' }}</small>
     </p>
-
-    {# Краткое содержание #}
-    <p>{{ object.description }}</p>
-
-    {# Дата постинга #}
-    <p class="posted">{{ object.posted|date:'j.m.H:i:s' }}</p>
 
     {# Список тегов поста #}
     {% with names=object.tags.names %}
         {% if names.count > 0 %}
-            <p class="tags">{% for name in names %}
+            <p>{% for name in names %}
                 {% if not forloop.first %},{% endif %}
-                <a href="{% url 'blog_index' %}?tag={{ name|urlencode }}">{{ name }}</a>
+              Теги:  <a href="{% url 'blog_index' %}?tag={{ name|urlencode }}">{{ name }}</a>
                 {% endfor %}
             </p>
         {% endif %}

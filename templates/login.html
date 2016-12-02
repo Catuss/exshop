@@ -1,16 +1,14 @@
-{% extends 'login_logout.html' %}
+{% extends 'base.html' %}
 {% block title %}Вход{% endblock %}
-{% block ll %}
-    <h2>Вход</h2>
-    <form action="" method="post">
+{% block content %}
 
-        {# Подгружение шаблона формы #}
-        {% include 'generic/form.html' %}
-        <div class="submit-button">
-            <input type="submit" value="Войти">
-        </div>
+<div class="container">
+  <form class="form-signin" action="" method="post">
+    <h2 class="form-signin-heading">Пожалуйста, авторизуйтесь</h2>
+    {% include 'generic/form.html' %}
+    <input type="submit" value="Войти">
+    <input type="hidden" name="next" value="{{ next }}">
+  </form>
+</div> <!-- /container -->
 
-        {# Скрытая кнопка с данными о адресе перенаправления после входа #}
-        <input type="hidden" name="next" value="{{ next }}">
-    </form>
 {% endblock %}

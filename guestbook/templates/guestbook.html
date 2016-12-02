@@ -19,19 +19,23 @@
         </div>
     </form>
 </div>
-
+<br>
 {# Если в гостевой книге есть записи, вывод их в виде таблицы #}
 {% if object_list.count > 0 %}
     {%for object in latest %}
-        <table class="guestbook">
-            <tr>
-                <td class="user">{{ object.user }}</td>
-                <td class="posted">{{ object.posted|date:'j.m.y.H.i' }}</td>
-            </tr>
-            <tr>
-                <td colspan="2" class="content">{{ object.content }}</td>
-            </tr>
-        </table>
+        <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th><h5>{{object.user}}</h5></th>
+                <th><h6>{{ object.posted|date:'j.m.y.H.i' }}</h6></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="2"><p>{{ object.content }}</p></td>
+              </tr>
+            </tbody>
+          </table>
     {% endfor %}
 {% endif %}
 

@@ -12,7 +12,7 @@ class GuestBookView(ArchiveIndexView, CategoryListMixin):
     model = GuestBook
     date_field = 'posted'
     template_name = 'guestbook.html'
-    paginate_by = 10
+    paginate_by = 2
     allow_empty = True
     form = None
 

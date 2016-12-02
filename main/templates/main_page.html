@@ -2,32 +2,31 @@
 {% load thumbnail %}
 {% block title %}Главная страница{% endblock %}
 {% block main %}
-    <h2>Вкусная еда по доступным ценам</h2>
-    <p>Добро пожаловать на сайт Пельменик-org. Ниже представлен список последних новостей компании
-    и список рекомендуемых товаров.</p>
+<div class="page-header">
+    <h1>Добро пожаловать на сайт Пельменик-org!<p class="small">Ниже представлен список последних новостей
+    и список рекомендуемых товаров.</p></h1>
+</div>
 
 {# Список последних новостей #}
-
-<h3>Новости</h3>
+<h2>Новости</h2>
         {% for object in news %}
-            <h4><a href="{% url 'news_detail' pk=object.pk %}">
+            <h3><a href="{% url 'news_detail' pk=object.pk %}">
                 {{ object.title }}
-            </a></h4>
+            </a></h3>
             <p>{{ object.description }}</p>
                         {# дата в формате день.месяц.год:часы.минуты #}
             <p class="posted">{{ object.posted|date:'j.m.Y.H:i' }}</p>
         {% endfor %}
 
 {# Список рекомендуемых товаров в виде таблицы #}
-
     <h3>Рекомендуемые товары</h3>
-        <table class="list-table">
+        <table class="table">
             {% for object in goods %}
                 <tr>
-                    <td class="centered">
+                    <td>
                         <a href="{% url 'good_detail' pk=object.pk %}">
                             {# Миниатюра основного изображения товара #}
-                            <img src="{% thumbnail object.image 'base' %}">
+                            <img src="{% thumbnail object.image 'base' %}" class="img-thumbnail">
                         </a>
                     </td>
                     <td>
