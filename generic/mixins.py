@@ -7,7 +7,7 @@ class CategoryListMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super(CategoryListMixin, self).get_context_data(**kwargs)
         context['current_url'] = self.request.path
-        context['categories'] = Category.objects.all()
+        context['categories'] = Category.objects.order_by('order')
         return context
 
 
