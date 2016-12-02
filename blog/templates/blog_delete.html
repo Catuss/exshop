@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+
+{% load bbcode_tags %}
+
+{% block title %}Удаление статьи :: {{ blog.title }}{% endblock %}
+
+{% block main %}
+
+{% with object=blog %}
+<h2>Удаление статьи</h2>
+
+    {# Имя пользователя #}
+    <p class="username">
+    {% if object.user.get_full_name %}
+        {{ object.user.get_full_name }}
+    {% else %}
+        {{ object.user.get_username }}
+    {% endif %}
+    </p>
+
+    {# содержание статьи #}
+<div>{{ object.content|bbcode|safe }}</div>
+
+{# дата публикации #}
+<p class="posted">{{ object.posted|date:'j.m.Y.H:i:s' }}</p>
+
+    {# форма удаления #}
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Удалить">
+    </form>
+
+{# ссылка для возврата #}
+<p><a href="{% url 'blog_index' %}?page={{ pn }}{% if search %}
+            &search={{ search }}{% endif %}{% if tag %}&tag={{ tag }}{% endif %}">Назад</a></p>
+
+{% endwith %}
+
+{% endblock %}

@@ -1,22 +1,32 @@
 {% extends 'main.html' %}
+
 {% block title %}Гостевая книга{% endblock %}
+
 {% block main %}
+
+{# Подключение шаблона сообщений #}
     {% include 'generic/messages.html' %}
+
 <h2>Гостевая книга</h2>
+
 <div class="form bottom-indent">
     <form action="" method="post">
+
+        {# Подключение шаблона формы #}
         {% include 'generic/form.html' %}
         <div class="submit-button">
             <input type="submit" value="Добавить">
         </div>
     </form>
 </div>
+
+{# Если в гостевой книге есть записи, вывод их в виде таблицы #}
 {% if object_list.count > 0 %}
     {%for object in latest %}
         <table class="guestbook">
             <tr>
                 <td class="user">{{ object.user }}</td>
-                <td class="posted">{{ object.posted|date:'j.m.y.H.i.s' }}</td>
+                <td class="posted">{{ object.posted|date:'j.m.y.H.i' }}</td>
             </tr>
             <tr>
                 <td colspan="2" class="content">{{ object.content }}</td>
@@ -24,5 +34,8 @@
         </table>
     {% endfor %}
 {% endif %}
+
+{# Подключение шаблона пагинации #}
 {% include 'generic/pagination.html' %}
+
 {% endblock %}

@@ -1,3 +1,8 @@
+{# Подключаемый шаблон хранилища изображений #}
+
+
+{# Выводит таблицу с четырмя изображениями и ссылками навигации #}
+
 <table id="imagepool_image_list" href="{% url 'imagepool_index' %}">
     <tr>
         <td class="link"><a href="#" id="imagepool_prev">&lt;</a></td>
@@ -8,6 +13,10 @@
         <td class="link"><a href="#" id="imagepool_next">&gt;</a></td>
     </tr>
 </table>
+
+
+{# форма добавления изображения в хранилище, как цель используется скрытый iframe #}
+
 <div class="form">
     <form id="imagepool_form" action="{% url 'imagepool_upload' %}"
           method="post" enctype="multipart/form-data" target="imagepool_output">

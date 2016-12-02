@@ -9,6 +9,7 @@ class ImagePool(models.Model):
         verbose_name = ['изображение']
         verbose_name_plural = ['изображения']
 
+    # Переопределение метода для избежания появления "мусора"
     def delete(self, *args, **kwargs):
         self.image.delete(save=False)
         super(ImagePool, self).delete(*args, **kwargs)

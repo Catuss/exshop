@@ -1,0 +1,23 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+{% block title %}Добавление товара :: {{category.name}}{% endblock %}
+{% block main %}
+
+    <h2>Добавление товара</h2>
+
+<div class="form">
+    <form action="" method="post">
+
+        {# подключение шаблона формы и набора форм #}
+        {% include 'generic/form.html' %}
+        {% include 'generic/formset.html' %}
+        <div class="submit-button">
+            <input type="submit" value="Добавить">
+        </div>
+    </form>
+</div>
+
+{# ссылка для возврата к списку товаров #}
+<p><a href="{% url 'good_index' pk=category.pk %}?page={{pn}}&sort={{sort}}&order={{order}}">Назад
+</a></p>
+{% endblock %}

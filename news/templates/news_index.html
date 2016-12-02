@@ -3,15 +3,30 @@
 {% block main %}
     {% include 'generic/messages.html' %}
     <h2>Новости</h2>
+
+
+{# Если у текущего пользователя есть права добавления новостей #}
+{# выводится ссылка на страницу добавления новости #}
+
     {% if perms.news.add_new %}
-        <p><a href="{% url 'news_add' %}">Добавить новости</a></p>
+        <p><a href="{% url 'news_add' %}">Добавить новость</a></p>
     {% endif %}
+
+
+{# Список последних новостей #}
+
     {% for object in latest %}
         <h4><a href="{% url 'news_detail' pk=object.pk %}?page={{ page_obj.number }}">
             {{ object.title }}
         </a></h4>
         <p>{{ object.description }}</p>
-        <p class="posted">{{ object.posted|date:'j.m.Y.H:i:s' }}</p>
+                            {# дата в формате день.месяц.год:часы.минуты #}
+        <p class="posted">{{ object.posted|date:'j.m.Y.H:i' }}</p>
+
+
+{# Если у текущего пользователя есть права добавления новостей #}
+{# выводится ссылки на страницы изменения и удаления новости #}
+
         <p class="buttons bottom-indent">
             {% if perms.news.change_new %}
                 <a href="{% url 'news_edit' pk=object.pk %}?page={{ page_obj.number }}">
@@ -25,5 +40,9 @@
             {% endif %}
         </p>
     {% endfor %}
+
+
+{# Подключение шаблона для пагинации #}
+
 {% include 'generic/pagination.html' %}
 {% endblock %}

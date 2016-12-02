@@ -1,10 +1,18 @@
 {% extends 'main.html' %}
+
 {% block title %}Категории{% endblock %}
+
 {% block main %}
+
+    {# Подключение шаблона сообщений #}
     {% include 'generic/messages.html' %}
+
     <h2>Категории</h2>
     <form action="" method="post">
+
+        {# Подключение шаблона набора форм #}
         {% include 'generic/formset.html' %}
     <div class="submit-button"><input type="submit" value="Сохранить"></div>
     </form>
+
 {% endblock %}

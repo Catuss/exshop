@@ -1,13 +1,14 @@
-from django.views.generic.dates import ArchiveIndexView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic import ArchiveIndexView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.messages import add_message, SUCCESS
+
 from news.models import New
 from generic.mixins import CategoryListMixin, PageNumberMixin
 from generic.controllers import PageNumberView
 
+
+# Контроллер вывода списка новостей отсортированных по дате
 
 class NewsListView(ArchiveIndexView, CategoryListMixin):
     model = New
@@ -18,10 +19,17 @@ class NewsListView(ArchiveIndexView, CategoryListMixin):
     allow_future = True
 
 
+# Контроллер вывода подробностей новости
+# конкретная новость выбирается по свойству pk, которое берется из url
+# PageNumberMixin в списке родителей добавляет в url страницу пагинации,
+# Что бы пользователь при нажатии кнопки назад вернулся на прежнюю страницу
+
 class NewsDetailView(DetailView, PageNumberMixin):
     model = New
     template_name = 'news_detail.html'
 
+
+# Контроллер создания новости
 
 class NewCreate(SuccessMessageMixin, CreateView, CategoryListMixin):
     model = New
@@ -31,6 +39,8 @@ class NewCreate(SuccessMessageMixin, CreateView, CategoryListMixin):
     success_message = 'Новость успешно добавлена'
 
 
+# Контроллер редактирования новости
+
 class NewUpdate(SuccessMessageMixin, PageNumberView, UpdateView, PageNumberMixin,):
     model = New
     fields = ['title', 'description', 'content']
@@ -38,6 +48,8 @@ class NewUpdate(SuccessMessageMixin, PageNumberView, UpdateView, PageNumberMixin
     success_url = reverse_lazy('news_index')
     success_message = 'Новость успешно изменена'
 
+
+# Контроллер удаления новости
 
 class NewDelete(PageNumberView, DeleteView, PageNumberMixin):
     model = New

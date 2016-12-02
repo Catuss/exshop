@@ -93,7 +93,7 @@
     }
 
 .guestbook .user {
-    font-weigth: bold;
+    font-weight: bold;
     
     }
 
@@ -151,7 +151,7 @@
 #imagepool_image_list td {
     text-align: center;
     width: 160px;
-    heigth: 120px;
+    height: 120px;
     }
 
 #imagepool_image_list td.link {
@@ -161,7 +161,7 @@
 
 #imagepool_image_list td img {
     max-width: 160px;
-    max-heigth: 100px;
+    max-height: 100px;
     }
 
 #imagepool_image_list td a:link, #imagepool_image_list td a:visited,
@@ -183,4 +183,63 @@
 
 .form th:first-child, .form td:first-child {
     display: none;
+    }
+
+.list-table {
+    width: 100%;
+    border-collapse: collapse;
+    }
+
+.list-table td, .list-table th {
+    border: 1px #666666 solid;
+    padding: 5px;
+    }
+
+.list-table td.centered {
+    text-align: center;
+    }
+
+.old-price {
+    color: #999999;
+    text-decoration: line-through;
+    }
+
+.good-images {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 50px;
+    }
+
+.good-images div {
+    max-width: 300px;
+    height: 200px;
+    float: left;
+    }
+
+.good-images div img {
+    max-width: 300px;
+    height: 200px;
+    }
+
+.blog-article {
+    padding: 10px;
+    margin: 10px 0px 10px 0px;
+    border: 1px solid #cccccc;
+    }
+
+.blog-article h4 {
+    margin-top: 0px;
+    }
+
+.username {
+    font-size: smaller;
+    font-weight: bold;
+    }
+
+.tags {
+    text-align: right;
+    }
+
+.search-form {
+    float: right;
     }

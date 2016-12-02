@@ -3,11 +3,13 @@
 {% block ll %}
     <h2>Вход</h2>
     <form action="" method="post">
+
         {# Подгружение шаблона формы #}
         {% include 'generic/form.html' %}
         <div class="submit-button">
             <input type="submit" value="Войти">
         </div>
+
         {# Скрытая кнопка с данными о адресе перенаправления после входа #}
         <input type="hidden" name="next" value="{{ next }}">
     </form>

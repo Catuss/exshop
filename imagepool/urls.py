@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from imagepool.views import get_list, upload_file, delete_file
 
 
+# Функционал хранилища изображений доступен только зарегистрированным пользователям
+
 urlpatterns = [
     url(r'^$', login_required(get_list), name='imagepool_index'),
     url(r'^upload/$', login_required(upload_file), name='imagepool_upload'),

@@ -1,0 +1,38 @@
+{%extends 'main.html' %}
+
+{%load bbcode_tags%}
+
+{%block title%}{{object.name}}::{{object.category.name}}{%endblock%}
+
+{%block main%}
+
+<h2>{{object.name}}</h2>
+
+<p>Категория: {{object.category.name}}</p>
+
+{# вывод основной и дополнительных изображений товара #}
+<div class="good-images">
+    <div><img src="{{object.image.url}}"></div>
+    {%for goodimage in object.goodimage_set.all%}
+    <div><img src="{{goodimage.image.url}}"></div>
+    {%endfor%}
+</div>
+
+{# описание товара в обработке тегов bbcode #}
+<div>{{object.content|bbcode|safe}}</div>
+
+{# цена #}
+<p>Цена: {%if object.price_acc > 0 %}<span class="old-price">
+    {{object.price}}</span>&nbsp;&nbsp;{{object.price_acc}}{%else%}
+    {{object.price}}{%endif%}</p>
+
+{# наличие товара #}
+{%if object.in_stock%}
+<p>Есть в наличии.</p>
+{%endif%}
+
+{# ссылка для возврата к списку товаров #}
+<p><a href="{% url 'good_index' pk=object.category.pk %}?page={{pn}}&sort={{sort}}&order={{order}}">
+    Назад</a></p>
+
+{% endblock %}

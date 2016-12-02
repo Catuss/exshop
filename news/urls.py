@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.contrib.auth.decorators import permission_required
 from news.views import NewsListView, NewsDetailView, NewCreate, NewUpdate, NewDelete
 
+# Страницы добавления, правки и удаления новости доступны только если у пользователя есть на это права
 
 urlpatterns = [
     url(r'^$', NewsListView.as_view(), name='news_index'),

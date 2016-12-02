@@ -4,6 +4,7 @@
 {% block main %}
     <h2>{{object.title }}</h2>
     <div>{{ object.content|bbcode|safe }}</div>
-    <p class="posted">{{ object.posted|date:'j.m.Y.H:i:s' }}</p>
+                    {# дата в формате день.месяц.год:часы.минуты #}
+    <p class="posted">{{ object.posted|date:'j.m.Y.H:i' }}</p>
     <p><a href="{% url 'news_index' %}?page={{ pn }}">Назад</a></p>
 {% endblock %}

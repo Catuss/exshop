@@ -1,0 +1,98 @@
+{% extends 'main.html' %}
+
+{% load thumbnail %}
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block main %}
+
+{# подгрузка шаблона сообщений #}
+{% include 'generic/messages.html' %}
+
+<h2>{{ category.name }}</h2>
+
+{# если у пользователя есть права для добавления товара #}
+{# выводится ссылка на страницу добавления товара #}
+{% if perms.goods.add_good %}
+<p><a href="{% url 'good_create' pk=category.pk %}?page={{page_obj.number}}&sort={{sort}}&order={{order}}">
+    Добавить товар
+</a></p>
+{% endif %}
+
+{# таблица товаров #}
+<table class="list-table">
+    <tr>
+
+        <th>Миниатюра</th>
+
+        {# сортировка по названию #}
+        <th><a href="?sort=0&order={%if sort == '0' and order == 'A'%}D{%else%}A{%endif%}">
+            {% if sort == '0' %}{% if order == 'D' %}&#9660;{%else%}&#9650;{%endif%}{%endif%}&nbsp;
+            Название
+        </a></th>
+
+        <th>Описание</th>
+
+        {# сортировка по цене #}
+        <th><a href="?sort=1&order={%if sort == '1' and order == 'A'%}D{%else%}A{%endif%}">
+            {%if sort == '1'%}{%if order == 'D'%}&#9660;{%else%}&#9650;{%endif%}{%endif%}&nbsp;
+            Цена
+        </a></th>
+
+        {# сортировка по наличию товара #}
+        <th><a href="?sort=2&order={%if sort == '2' and order == 'A'%}D{%else%}A{%endif%}">
+            {%if sort == '2'%}{%if order == 'D'%}&#9660;{%else%}&#9650;{%endif%}{%endif%}&nbsp;Есть в наличии
+        </a></th>
+
+        {# поля для ссылок на служебные страницы для пользователей с соответствующими правами #}
+        {%if perms.goods.change_good%}
+            <th>&nbsp;</th>
+        {%endif%}
+        {%if perms.goods.delete_good%}
+            <th>&nbsp;</th>
+        {%endif%}
+    </tr>
+
+    {# итерация по списку товаров #}
+    {%for object in object_list %}
+    <tr>
+            {# изображение товара с ссылкой на деталку #}
+        <td class="centered"><a href="{%url 'good_detail' pk=object.pk%}?page={{page_obj.number}}
+                                        &sort={{sort}}&order={{order}}">
+            <img src="{%thumbnail object.image 'base' %}"></a></td>
+
+            {#  Название с ссылкой на деталку #}
+        <td><a href="{%url 'good_detail' pk=object.pk%}?page={{page_obj.number}}
+                                        &sort={{sort}}&order={{order}}">{{object.name}}</a></td>
+
+            {# описание товара #}
+        <td>{{object.description}}</td>
+
+            {# если указана цена со скидкой, выводятся оба числа, а старая цена выводится перечеркнутой #}
+        <td class="centered">{%if object.price_acc > 0%}
+            <span class="old-price">{{object.price}}</span><br>
+            {{object.price_acc}}{%else%}{{object.price}}
+            {%endif%}</td>
+
+            {# если товар в наличии выводится + #}
+        <td class="centered">{%if object.in_stock%}+{%endif%}</td>
+
+            {# ссылка на служебную страницу изменения товара #}
+        {%if perms.page.change_good%}
+        <td class="centered"><a href="{%url 'good_edit' pk=object.pk%}?page={{page_obj.number}}
+                                    &sort={{sort}}&order={{order}}">Изменить</a>
+        {%endif%}
+
+            {# ссылка на служебную страницу удаления товара #}
+            {%if perms.page.delete_good%}
+        <td class="centered"><a href="{%url 'good_delete' pk=object.pk%}?page={{page_obj.number}}
+                                    &sort={{sort}}&order={{order}}">Удалить</a></td>
+        {%endif%}
+    </tr>
+    {%endfor%}
+
+</table>
+
+{# подключение шаблона пагинации #}
+{%include 'generic/pagination.html'%}
+
+{%endblock%}
