@@ -2,7 +2,6 @@ from django.views.generic.base import ContextMixin
 from categories.models import Category
 
 # Класс добавляет в контекст шаблона список категорий и текущий путь относительно корня сайта
-
 class CategoryListMixin(ContextMixin):
     def get_context_data(self, **kwargs):
         context = super(CategoryListMixin, self).get_context_data(**kwargs)
@@ -13,7 +12,6 @@ class CategoryListMixin(ContextMixin):
 
 # Наследуется от класса-предка ListView
 # Добавляет в контекст шаблона текущую страницу пагинатора
-
 class PageNumberMixin(CategoryListMixin):
     def get_context_data(self, **kwargs):
         context = super(PageNumberMixin, self).get_context_data(**kwargs)

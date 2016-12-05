@@ -2,55 +2,58 @@
 {% load thumbnail %}
 {% block title %}Главная страница{% endblock %}
 {% block main %}
+
 <div class="page-header">
-    <h1>Добро пожаловать на сайт Пельменик-org!<p class="small">Ниже представлен список последних новостей
+    <h1>Добро пожаловать на сайт!<p class="small">Ниже представлен список последних новостей
     и список рекомендуемых товаров.</p></h1>
 </div>
 
-{# Список последних новостей #}
 <h2>Новости</h2>
-        {% for object in news %}
-            <h3><a href="{% url 'news_detail' pk=object.pk %}">
-                {{ object.title }}
-            </a></h3>
-            <p>{{ object.description }}</p>
-                        {# дата в формате день.месяц.год:часы.минуты #}
-            <p class="posted">{{ object.posted|date:'j.m.Y.H:i' }}</p>
-        {% endfor %}
+
+{# Список последних новостей #}
+{% for object in news %}
+    <h3><a href="{% url 'news_detail' pk=object.pk %}">
+        {{ object.title }}
+    </a></h3>
+    <p>{{ object.description }}</p>
+                {# дата в формате день.месяц.год:часы.минуты #}
+    <p class="posted">{{ object.posted|date:'j.m.Y.H:i' }}</p>
+{% endfor %}
 
 {# Список рекомендуемых товаров в виде таблицы #}
-    <h3>Рекомендуемые товары</h3>
-        <table class="table">
-            {% for object in goods %}
-                <tr>
-                    <td>
-                        <a href="{% url 'good_detail' pk=object.pk %}">
-                            {# Миниатюра основного изображения товара #}
-                            <img src="{% thumbnail object.image 'base' %}" class="img-thumbnail">
-                        </a>
-                    </td>
-                    <td>
-                        <a href="{% url 'good_detail' pk=object.pk %}">
-                            {{ object.name }}
-                        </a>
-                    </td>
-                    <td>{{ object.description }}</td>
+<h3>Рекомендуемые товары</h3>
+    <table class="table">
+        {% for object in goods %}
+            <tr>
+                <td>
+                    <a href="{% url 'good_detail' pk=object.pk %}">
+                        {# Миниатюра основного изображения товара #}
+                        <img src="{% thumbnail object.image 'base' %}" class="img-thumbnail">
+                    </a>
+                </td>
+                <td>
+                    <a href="{% url 'good_detail' pk=object.pk %}">
+                        {{ object.name }}
+                    </a>
+                </td>
+                <td>{{ object.description }}</td>
 
-                 {# Если у товара есть акционная цена, старая цена будет выведена сверху, перечеркнутая. #}
-                 {# А цена с учетом скидки будет выведена ниже ее #}
+             {# Если у товара есть акционная цена, старая цена будет выведена сверху, перечеркнутая. #}
+             {# А цена с учетом скидки будет выведена ниже ее #}
 
-                     <td class="centered">
-                        {% if object.price_acc > 0 %}
-                            <span class="old-price">
-                                {{object.price}}
-                            </span><br>
-                            {{ object.price_acc }}
-                        {% else %}
-                            {{ object.price }}
-                        {% endif %}руб.
-                    </td>
-                    <td class="centered">{% if object.in_stock %} В наличии {% endif %} </td>
-                </tr>
-            {% endfor %}
-        </table>
+                 <td class="centered">
+                    {% if object.price_acc > 0 %}
+                        <span class="old-price">
+                            {{object.price}}
+                        </span><br>
+                        {{ object.price_acc }}
+                    {% else %}
+                        {{ object.price }}
+                    {% endif %}руб.
+                </td>
+                <td class="centered">{% if object.in_stock %} В наличии {% endif %} </td>
+            </tr>
+        {% endfor %}
+    </table>
+
 {% endblock %}

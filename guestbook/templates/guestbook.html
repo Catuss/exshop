@@ -5,7 +5,7 @@
 {% block main %}
 
 {# Подключение шаблона сообщений #}
-    {% include 'generic/messages.html' %}
+{% include 'generic/messages.html' %}
 
 <h2>Гостевая книга</h2>
 
@@ -20,6 +20,7 @@
     </form>
 </div>
 <br>
+
 {# Если в гостевой книге есть записи, вывод их в виде таблицы #}
 {% if object_list.count > 0 %}
     {%for object in latest %}

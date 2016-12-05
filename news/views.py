@@ -1,26 +1,41 @@
 from django.views.generic import ArchiveIndexView, DetailView, CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.messages import add_message, SUCCESS
+from django.contrib.messages import add_message, SUCCESS, INFO
 
 from news.models import New
 from generic.mixins import CategoryListMixin, PageNumberMixin
 from generic.controllers import PageNumberView
+from django.db.models import Q
 
 
 # Контроллер вывода списка новостей отсортированных по дате
 
-class NewsListView(ArchiveIndexView, CategoryListMixin):
+class NewsListView(PageNumberView, ArchiveIndexView, CategoryListMixin):
     model = New
     date_field = 'posted'
     template_name = 'news_index.html'
-    paginate_by = 5
+    paginate_by = 10
     allow_empty = True
     allow_future = True
 
+    def get_queryset(self):
+        queryset = super(NewsListView, self).get_queryset()
+        try:
+            search = self.request.GET['search']
+            queryset = New.objects.filter(Q(title__icontains=search) |
+                               Q(description__icontains=search) |
+                               Q(content__icontains=search))
+            if queryset.count() < 1:
+                add_message(self.request, INFO, 'По вашему запросу ничего не найдено.')
+        except KeyError:
+            return queryset
+        return queryset
+
+
+
 
 # Контроллер вывода подробностей новости
-# конкретная новость выбирается по свойству pk, которое берется из url
 # PageNumberMixin в списке родителей добавляет в url страницу пагинации,
 # Что бы пользователь при нажатии кнопки назад вернулся на прежнюю страницу
 

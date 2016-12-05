@@ -6,7 +6,6 @@ from goods.models import Good
 # Это приложение содержит единственный контроллер, который выводит
 # список последних новостей и список рекомендуемых товаров
 
-
 class MainPageView(TemplateView, CategoryListMixin):
     template_name = 'main_page.html'
     news = New.objects.all()[:5]

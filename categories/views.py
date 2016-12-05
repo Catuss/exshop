@@ -10,7 +10,6 @@ CategoriesFormset = modelformset_factory(Category, can_delete=True, fields=['nam
 
 
 # Контроллер для редактирования списка категорий
-
 class CategoriesEdit(TemplateView, CategoryListMixin):
     template_name = 'categories_edit.html'
     formset = None

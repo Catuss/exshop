@@ -1,4 +1,4 @@
-from django.views.generic.base import ContextMixin, TemplateView
+from django.views.generic.base import TemplateView
 from django.views.generic import ArchiveIndexView, DetailView, CreateView, DeleteView
 from generic.mixins import CategoryListMixin, PageNumberMixin
 from generic.controllers import PageNumberView
@@ -12,40 +12,35 @@ from blog.models import Blog
 from django.db.models import Q
 
 
-# Класс добавляющий в контекст переменные тегов и поиска
-
-class SearchMixin(ContextMixin):
-    search = ''
-    tag = ''
-
-    def get_context_data(self, **kwargs):
-        context = super(SearchMixin, self).get_context_data(**kwargs)
-        context['search'] = self.search
-        context['tag'] = self.tag
-        return context
-
-
 # Контроллер вывода списка постов
-
-class BlogListView(PageNumberView, ArchiveIndexView, SearchMixin, CategoryListMixin):
+class BlogListView(ArchiveIndexView, CategoryListMixin):
     model = Blog
     date_field = 'posted'
     template_name = 'blog_index.html'
-    paginate_by = 2
+    paginate_by = 10
     allow_empty = True
     allow_future = True
 
     # При запросе поиска или поиска по тегу
     # в контекст передается queryset соответствующий заданным параметрам
-
     def get_queryset(self):
         blog = super(BlogListView, self).get_queryset()
-        if self.search:
-            blog = blog.filter(Q(title__contains=self.search) |
-                               Q(description__contains=self.search) |
-                                 Q(content__contains=self.search))
-        if self.tag:
-            blog = blog.filter(tags__name=self.tag)
+        try:
+            search = self.request.GET['search']
+            blog = blog.filter(Q(title__icontains=search) |
+                               Q(description__icontains=search) |
+                                 Q(content__icontains=search))
+            if blog.count() < 1:
+                messages.add_message(self.request, messages.INFO, 'По вашему запросу ничего не найдено.')
+        except KeyError:
+            return blog
+        try:
+            tag = self.request.GET['tag']
+            blog = blog.filter(tags__name=tag)
+            if blog.count() < 1:
+                messages.add_message(self.request, messages.INFO, 'По вашему запросу ничего не найдено.')
+        except KeyError:
+            return blog
         return blog
 
 
@@ -54,14 +49,12 @@ class BlogListView(PageNumberView, ArchiveIndexView, SearchMixin, CategoryListMi
 # Благодаря классам PageNumberView SearchMixin, PageNumberMixin,
 # При нажатии кнопки назад пользователь перейдет на ту страницу,
 # с которой он перешел на страницу поста
-
-class BlogDetailView(PageNumberView, DetailView, SearchMixin, PageNumberMixin):
+class BlogDetailView(PageNumberView, DetailView,  PageNumberMixin):
     model = Blog
     template_name = 'blog_detail.html'
     
 
 # Контроллер создания записи
-
 class BlogCreate(SuccessMessageMixin, CreateView, CategoryListMixin):
     form_class = BlogForm
     model = Blog
@@ -76,7 +69,6 @@ class BlogCreate(SuccessMessageMixin, CreateView, CategoryListMixin):
 
 
 # Контроллер удаления записи, параметр pk берется из url
-
 class BlogDelete(PageNumberView, DeleteView, PageNumberMixin):
     model = Blog
     template_name = 'blog_delete.html'
@@ -88,15 +80,13 @@ class BlogDelete(PageNumberView, DeleteView, PageNumberMixin):
 
 
 # Контроллер правки записи, pk берется из url
-
-class BlogUpdate(PageNumberView, TemplateView, SearchMixin, PageNumberMixin):
+class BlogUpdate(PageNumberView, TemplateView,  PageNumberMixin):
     blog = None
     template_name = 'blog_edit.html'
     form = None
 
     # Выводит форму только если пользователь является автором, или суперпользователем
     # Иначе редиректит на страницу логина
-
     def get(self, request,  *args, **kwargs):
         self.blog = Blog.objects.get(pk=self.kwargs['pk'])
         if self.blog.user == request.user or request.user.is_superuser:
@@ -106,7 +96,6 @@ class BlogUpdate(PageNumberView, TemplateView, SearchMixin, PageNumberMixin):
             return redirect(reverse('login'))
 
     # Добавление в контекст переменных формы и поста
-
     def get_context_data(self, **kwargs):
         context = super(BlogUpdate, self).get_context_data(**kwargs)
         context['blog'] = self.blog
@@ -117,7 +106,6 @@ class BlogUpdate(PageNumberView, TemplateView, SearchMixin, PageNumberMixin):
     # автором или суперпользователем.
     # Редирект на страницу с которой пришел пользователь, с учетом параметров поиска, пагинации и тегов
     # Если пользователь не автор и не суперпользователь - редирект на страницу регистрации
-
     def post(self, request, *args, **kwargs):
         self.blog = Blog.objects.get(pk=self.kwargs['pk'])
         if self.blog.user == request.user or request.user.is_superuser:
@@ -139,42 +127,3 @@ class BlogUpdate(PageNumberView, TemplateView, SearchMixin, PageNumberMixin):
                 return super(BlogUpdate, self).get(request, *args, **kwargs)
         else:
             return redirect(reverse('login'))
-
-
-# class BlogDelete(PageNumberView, TemplateView, SearchMixin, PageNumberMixin):
-#     blog = None
-#     template_name = 'blog_delete.html'
-#
-#     def get(self, request,  *args, **kwargs):
-#         self.blog = Blog.objects.get(pk=self.kwargs['pk'])
-#         if self.blog.user == request.user or request.user.is_superuser:
-#             self.form = BlogForm(instance=self.blog)
-#             return super(BlogDelete, self).get(request, *args, **kwargs)
-#         else:
-#             return redirect(reverse('login'))
-#
-#     def get_context_data(self, **kwargs):
-#         context = super(BlogDelete, self).get_context_data(**kwargs)
-#         context['blog'] = self.blog
-#         context['form'] = self.form
-#         return context
-#
-#     def post(self, request, *args, **kwargs):
-#         self.blog = Blog.objects.get(pk=self.kwargs['pk'])
-#         if self.blog.user == request.user or request.user.is_superuser:
-#             self.form = BlogForm(instance=self.blog)
-#             self.form.delete()
-#             messages.add_message(request, messages.SUCCESS, 'Статья успешно удалена')
-#             redirect_url = reverse('blog_index') + '?page' + self.request.GET['page']
-#             try:
-#                 redirect_url = redirect_url + '&search=' + self.request.GET['search']
-#             except KeyError:
-#                 pass
-#             try:
-#                 redirect_url = redirect_url + '&tag=' + self.request.GET['tag']
-#             except KeyError:
-#                 pass
-#             return redirect(redirect_url)
-#         else:
-#             return redirect('login')
-#

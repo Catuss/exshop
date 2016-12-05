@@ -7,6 +7,7 @@
 
 {# подгрузка шаблона сообщений #}
 {% include 'generic/messages.html' %}
+
 <div class="row">
 <h2>{{ category.name }}</h2>
 
@@ -18,30 +19,37 @@
 </a></p>
 {% endif %}
 
+{# Форма для сортировки товаров #}
+    Сортировать по:
+<div class="search-form form-inline">
+    <form action="" name="sorder">
+        <select name="order">
+
+            <option name="1price" value="1price" {% if order == '1price' %} selected {% endif %}>
+            Цене, по возрастанию</option>
+            <option name="0price" value="0price" {% if order == '0price' %} selected {% endif %}>
+            Цене, по убыванию</option>
+            <option name="0price" value="name" {% if order == 'name' %} selected {% endif %}>
+            Названию</option>
+        </select>
+
+        <label>
+            <input type="checkbox" value="true" name="instock" {% if instock == 'true' %} checked {% endif %}>
+            В наличии
+        </label>
+
+        <input type="submit" value="Сортировать">
+    </form>
+</div>
+
 {# таблица товаров #}
 <table class="list-table">
     <tr>
-
         <th>Миниатюра</th>
-
-        {# сортировка по названию #}
-        <th><a href="?sort=0&order={%if sort == '0' and order == 'A'%}D{%else%}A{%endif%}">
-            {% if sort == '0' %}{% if order == 'D' %}&#9660;{%else%}&#9650;{%endif%}{%endif%}&nbsp;
-            Название
-        </a></th>
-
+        <th>Название</th>
         <th>Описание</th>
-
-        {# сортировка по цене #}
-        <th><a href="?sort=1&order={%if sort == '1' and order == 'A'%}D{%else%}A{%endif%}">
-            {%if sort == '1'%}{%if order == 'D'%}&#9660;{%else%}&#9650;{%endif%}{%endif%}&nbsp;
-            Цена
-        </a></th>
-
-        {# сортировка по наличию товара #}
-        <th><a href="?sort=2&order={%if sort == '2' and order == 'A'%}D{%else%}A{%endif%}">
-            {%if sort == '2'%}{%if order == 'D'%}&#9660;{%else%}&#9650;{%endif%}{%endif%}&nbsp;Есть в наличии
-        </a></th>
+        <th>Цена</th>
+        <th>В наличии</th>
 
         {# поля для ссылок на служебные страницы для пользователей с соответствующими правами #}
         {%if perms.goods.change_good%}
@@ -91,6 +99,7 @@
     {%endfor%}
 
 </table>
+</div>
 
 {# подключение шаблона пагинации #}
 {%include 'generic/pagination.html'%}

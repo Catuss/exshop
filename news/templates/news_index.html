@@ -7,6 +7,10 @@
 
 {# Если у текущего пользователя есть права добавления новостей #}
 {# выводится ссылка на страницу добавления новости #}
+<form action="" class="form">
+    <input type="text" name="search">
+    <input type="submit" value="Найти">
+</form>
 
     {% if perms.news.add_new %}
         <p><a href="{% url 'news_add' %}">Добавить новость</a></p>

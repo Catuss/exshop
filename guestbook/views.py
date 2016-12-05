@@ -7,17 +7,15 @@ from generic.mixins import CategoryListMixin
 
 
 # Контроллер вывода списка записей гостевой книги
-
 class GuestBookView(ArchiveIndexView, CategoryListMixin):
     model = GuestBook
     date_field = 'posted'
     template_name = 'guestbook.html'
-    paginate_by = 2
+    paginate_by = 10
     allow_empty = True
     form = None
 
 # Добавление формы в контекст шаблона
-
     def get(self, request, *args, **kwargs):
         self.form = GuestBookForm()
         return super(GuestBookView, self).get(request, *args, **kwargs)
@@ -29,7 +27,6 @@ class GuestBookView(ArchiveIndexView, CategoryListMixin):
 
 # Занесение данных в форму, ее сохранение.
 # Как защита от спама используется скрытое поле honeypot
-
     def post(self, request, *args, **kwargs):
         self.form = GuestBookForm(request.POST)
         if self.form.is_valid():

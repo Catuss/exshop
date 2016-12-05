@@ -3,7 +3,6 @@ from guestbook.models import GuestBook
 
 
 # Форма добавления отзыва в гостевую книгу
-
 class GuestBookForm(forms.ModelForm):
     class Meta:
         model = GuestBook

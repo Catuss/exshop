@@ -1,9 +1,7 @@
 {% extends 'main.html' %}
 {% load staticfiles %}
 
-
 {# Подгрузка скриптов для хранилища изображений #}
-
 {% block additional_js %}
 <script src="{% static 'static/js/jquery.js' %}" type="text/javascript"></script>
 <script src="{% static 'static/js/imagepool.js' %}" type="text/javascript"></script>
@@ -22,8 +20,8 @@
     </form>
 
 {# Подключение шаблона для хранилища изображений #}
-
 {% include 'generic/file_lister.html' %}
 
     <p><a href="{% url 'news_index' %}?page={{ pn }}">Назад</a></p>
+
 {% endblock %}

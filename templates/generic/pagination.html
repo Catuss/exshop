@@ -1,19 +1,22 @@
+{# Подключаемый шаблон для пагинации #}
+{# Ссылки для перехода на страницы формируются с учетом возможных GET параметров #}
+
 {% if paginator.num_pages > 1 %}
     <nav aria-label="Page navigation">
         <ul class="pagination">
         {% if page_obj.has_previous %}
             <li>
-                <a href="?page={{ page_obj.previous_page_number }}{% if sort and order %}
-                         &sort={{ sort }}&order={{ order }}{% endif %}{% if search %}&search={{ search }}
-                         {% endif %}{% if tag %}&tag={{ tag }}{% endif %}" aria-label="Previous">
+                <a href="?page={{ page_obj.previous_page_number }}{% if order %}&order={{order}}{%endif%}
+                        {%if instock %}&instock={{instock}}{%endif%}{% if search %}&search={{ search }}
+                        {% endif %}{% if tag %}&tag={{ tag }}{% endif %}" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
         {% endif %}
         {% for pn in page_obj.paginator.page_range %}
             {% if pn == page_obj.number %}
-                <li class="disabled"><a href="?page={{ pn }}{% if sort and order %}
-                         &sort={{ sort }}&order={{ order }}{% endif %}{% if search %}&search={{ search }}
+                <li class="disabled"><a href="?page={{ pn }}{% if order %}&order={{order}}{%endif%}
+                         {%if instock %}&instock={{instock}}{%endif%}{% if search %}&search={{ search }}
                          {% endif %}{% if tag %}&tag={{ tag }}{% endif %}">{{pn}}</a></li>
             {% else %}
             <li><a href="?page={{ pn }}{% if sort and order %}
@@ -23,8 +26,8 @@
         {% endfor %}
         {% if page_obj.has_next %}
             <li>
-                <a href="?page={{ page_obj.next_page_number }}{% if sort and order %}
-                         &sort={{ sort }}&order={{ order }}{% endif %}{% if search %}&search={{ search }}
+                <a href="?page={{ page_obj.next_page_number }}{% if order %}&order={{order}}{%endif%}
+                         {%if instock %}&instock={{instock}}{%endif%}{% if search %}&search={{ search }}
                          {% endif %}{% if tag %}&tag={{ tag }}{% endif %}" aria-label="Previous">
                     <span aria-hidden="true">&raquo;</span>
                 </a>

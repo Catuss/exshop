@@ -11,68 +11,58 @@ from goods.models import Good, GoodImage
 from goods.forms import GoodForm
 
 
-# Добавляет в контекст параметры сортирвки и упорядочивания по умолчанию
-
-class SortMixin(ContextMixin):
-    sort = '0'
-    order = 'A'
-
-    def get_context_data(self, **kwargs):
-        context = super(SortMixin, self).get_context_data(**kwargs)
-        context['sort'] = self.sort
-        context['order'] = self.order
-        return context
-
-
 # Контроллер вывода списка товаров
-
-class GoodListView(PageNumberView, ListView, SortMixin, CategoryListMixin):
+class GoodListView(ListView, CategoryListMixin):
     model = Good
     template_name = 'good_index.html'
     paginate_by = 10
     cat = None
     allow_empty = True
+    sort_order = 'name'
+    instock_order = ''
 
-    # Добавляет в контекст текущую категорию, айди категории берется из url
-
+    # Добавение в контекст текущей категории и параметров сортировки
     def get(self, request, *args, **kwargs):
         if self.kwargs['pk'] is None:
             self.cat = Category.objects.first()
         else:
             self.cat = Category.objects.get(pk=self.kwargs['pk'])
+        try:
+            self.sort_order = self.request.GET['order']
+        except KeyError:
+            pass
+        try:
+            self.instock_order = self.request.GET['instock']
+        except KeyError:
+            pass
         return super(GoodListView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(GoodListView, self).get_context_data(**kwargs)
         context['category'] = self.cat
+        context['order'] = self.sort_order
+        context['instock'] = self.instock_order
         return context
 
-    # В зависимости от условий сортировки и упорядочивания
-    # формирует список объектов
-
+    # В зависимости от условий сортировки формируется список объектов
     def get_queryset(self):
         goods = Good.objects.filter(category=self.cat)
-        if self.sort == '2':
-            if self.order == 'D':
-                goods = goods.order_by('-in_stock', 'name')
-            else:
-                goods = goods.order_by('in_stock', 'name')
-        elif self.sort == '1':
-            if self.order == 'D':
-                goods = goods.order_by('-price', 'name')
-            else:
-                goods = goods.order_by('price', 'name')
-        else:
-            if self.order == "D":
-                goods = goods.order_by('-name')
-            else:
+        try:
+            if self.sort_order == '0price':
+                goods = goods.order_by('-price')
+            elif self.sort_order == '1price':
+                goods = goods.order_by('price')
+            elif self.sort_order == 'name':
                 goods = goods.order_by('name')
+            if self.instock_order == 'true':
+                goods = goods.filter(in_stock=True)
+        except KeyError:
+            pass
         return goods
 
 
 # Контроллер для показа сведений об отдельном товаре
-
-class GoodDetailView(PageNumberView, DetailView, SortMixin, PageNumberMixin):
+class GoodDetailView(PageNumberView, DetailView, PageNumberMixin):
     model = Good
     template_name = 'good_detail.html'
 
@@ -82,8 +72,7 @@ GoodImageFormset = inlineformset_factory(Good, GoodImage, can_order=True, fields
 
 
 # Контроллер добавления товара
-
-class GoodCreate(PageNumberView, TemplateView, SortMixin, PageNumberMixin):
+class GoodCreate(PageNumberView, TemplateView, PageNumberMixin):
     template_name = 'good_create.html'
     cat = None
     form = None
@@ -131,8 +120,7 @@ class GoodCreate(PageNumberView, TemplateView, SortMixin, PageNumberMixin):
 
 
 # Контроллер правки товара
-
-class GoodUpdate(PageNumberView, TemplateView, SortMixin, PageNumberMixin):
+class GoodUpdate(PageNumberView, TemplateView, PageNumberMixin):
     template_name = 'good_edit.html'
     good = None
     form = None
@@ -170,8 +158,7 @@ class GoodUpdate(PageNumberView, TemplateView, SortMixin, PageNumberMixin):
 
 
 # Контроллер удаления товара
-
-class GoodDelete(PageNumberView, DeleteView, SortMixin, PageNumberMixin):
+class GoodDelete(PageNumberView, DeleteView, PageNumberMixin):
     model = Good
     template_name = 'good_delete.html'
 

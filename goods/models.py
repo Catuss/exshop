@@ -19,7 +19,6 @@ class Good(models.Model):
 
     # Если при сохранении изображение меняется
     # старое изображение удаляется
-
     def save(self, *args, **kwargs):
         try:
             this_rec = Good.objects.get(pk=self.pk)
@@ -31,7 +30,6 @@ class Good(models.Model):
 
     # При удалении записи, удаляется изображение
     # для предотвращения образования "мусора"
-
     def delete(self, *args, **kwargs):
         self.image.delete(save=False)
         super(Good, self).delete(*args, **kwargs)
@@ -41,7 +39,6 @@ class Good(models.Model):
 
 
 # Дочерний класс товара, для хранения дополнительных изображений
-
 class GoodImage(models.Model):
     class Meta:
         verbose_name = 'изображение к товару'

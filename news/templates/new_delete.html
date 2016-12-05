@@ -1,9 +1,6 @@
 {% extends 'main.html' %}
-
 {% load bbcode_tags %}
-
 {% block title %}Удаление новости :: {{ object.title }}{% endblock %}
-
 {% block main %}
 
     <h2>Удаление новости</h2>
@@ -20,6 +17,7 @@
     </form>
 
 <button type="button" class="btn btn-default">
-    <a href="{% url 'news_index' %}?page={{ pn }}">Назад</a></button>
+    <a href="{% url 'news_index' %}?page={{ pn }}">Назад</a>
+</button>
 
 {% endblock %}

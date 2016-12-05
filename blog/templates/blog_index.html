@@ -9,9 +9,8 @@
 
 {# Форма поиска #}
 <div class="search-form">
-    <form action="" method="post">
-        {% csrf_token %}
-        <input type="text" id="search" name="search" value="{{ search }}">
+    <form action="">
+        <input type="text" name="search">
         <input type="submit" value="Найти">
     </form>
 </div>
