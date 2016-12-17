@@ -13,13 +13,12 @@
 
     <h2>Правка новости</h2>
     <form action="" method="post">
-        {% include 'generic/form.html' %} {# Подключение шаблона формы #}
+        {% include 'generic/form.html' %}
         <div class="submit-button">
             <input type="submit" value="Сохранить">
         </div>
     </form>
 
-{# Подключение шаблона для хранилища изображений #}
 {% include 'generic/file_lister.html' %}
 
     <p><a href="{% url 'news_index' %}?page={{ pn }}">Назад</a></p>

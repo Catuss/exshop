@@ -11,8 +11,8 @@ from goods.models import Good, GoodImage
 from goods.forms import GoodForm
 
 
-# Контроллер вывода списка товаров
 class GoodListView(ListView, CategoryListMixin):
+    """ Контроллер вывода списка товаров """
     model = Good
     template_name = 'good_index.html'
     paginate_by = 10
@@ -21,8 +21,11 @@ class GoodListView(ListView, CategoryListMixin):
     sort_order = 'name'
     instock_order = ''
 
-    # Добавение в контекст текущей категории и параметров сортировки
     def get(self, request, *args, **kwargs):
+        """
+        Метод добавляет в контекст категорию  и параметры сортировки
+
+        """
         if self.kwargs['pk'] is None:
             self.cat = Category.objects.first()
         else:
@@ -44,8 +47,11 @@ class GoodListView(ListView, CategoryListMixin):
         context['instock'] = self.instock_order
         return context
 
-    # В зависимости от условий сортировки формируется список объектов
     def get_queryset(self):
+        """
+        QuerySet формируется в зависимости от параметров сортировки
+
+        """
         goods = Good.objects.filter(category=self.cat)
         try:
             if self.sort_order == '0price':
@@ -61,8 +67,8 @@ class GoodListView(ListView, CategoryListMixin):
         return goods
 
 
-# Контроллер для показа сведений об отдельном товаре
 class GoodDetailView(PageNumberView, DetailView, PageNumberMixin):
+    """ Контроллер выводит страницу отдельного товара """
     model = Good
     template_name = 'good_detail.html'
 
@@ -71,16 +77,13 @@ class GoodDetailView(PageNumberView, DetailView, PageNumberMixin):
 GoodImageFormset = inlineformset_factory(Good, GoodImage, can_order=True, fields=['image'])
 
 
-# Контроллер добавления товара
 class GoodCreate(PageNumberView, TemplateView, PageNumberMixin):
+    """ Контроллер отвечает за создание товара """
     template_name = 'good_create.html'
     cat = None
     form = None
     formset = None
 
-    # Если категория не указана, берется первая
-    # так же формируется объект формы с начальными данными категории
-    # и пустой объект набора форм
 
     def get(self, request, *args, **kwargs):
         if self.kwargs['pk'] is None:
@@ -91,7 +94,6 @@ class GoodCreate(PageNumberView, TemplateView, PageNumberMixin):
         self.formset = GoodImageFormset()
         return super(GoodCreate, self).get(request, *args, **kwargs)
 
-    # Добавление переменных категории, формы и набора форм в контекст шаблона
     def get_context_data(self, **kwargs):
         context = super(GoodCreate, self).get_context_data(**kwargs)
         context['category'] = self.cat
@@ -99,8 +101,11 @@ class GoodCreate(PageNumberView, TemplateView, PageNumberMixin):
         context['formset'] = self.formset
         return context
 
-    # Cохранение формы и набора форм
     def post(self, request, *args, **kwargs):
+        """
+        Метод сохраняет форму и набор форм
+
+        """
         self.form = GoodForm(request.POST, request.FILES)
         if self.form.is_valid():
             new_good = self.form.save()
@@ -119,21 +124,19 @@ class GoodCreate(PageNumberView, TemplateView, PageNumberMixin):
         return super(GoodCreate, self).get(request, *args, **kwargs)
 
 
-# Контроллер правки товара
 class GoodUpdate(PageNumberView, TemplateView, PageNumberMixin):
+    """ Контроллер правки товара """
     template_name = 'good_edit.html'
     good = None
     form = None
     formset = None
 
-    # Объявление объектов товара, формы и набора форм, заполнение изначальными данными
     def get(self, request, *args, **kwargs):
         self.good = Good.objects.get(pk=self.kwargs['pk'])
         self.form = GoodForm(instance=self.good)
         self.formset = GoodImageFormset(instance=self.good)
         return super(GoodUpdate, self).get(request, *args, **kwargs)
 
-    # Добавление данных в контекст шаблона
     def get_context_data(self, **kwargs):
         context = super(GoodUpdate, self).get_context_data(**kwargs)
         context['good'] = self.good
@@ -141,7 +144,6 @@ class GoodUpdate(PageNumberView, TemplateView, PageNumberMixin):
         context['formset'] = self.formset
         return context
 
-    # Сохранение формы и набора форм
     def post(self, request, *args, **kwargs):
         self.good = Good.objects.get(pk=self.kwargs['pk'])
         self.form = GoodForm(request.POST, request.FILES, instance=self.good)
@@ -157,12 +159,11 @@ class GoodUpdate(PageNumberView, TemplateView, PageNumberMixin):
         return super(GoodUpdate, self).get(request, *args, **kwargs)
 
 
-# Контроллер удаления товара
 class GoodDelete(PageNumberView, DeleteView, PageNumberMixin):
+    """ Контроллер отвечает за удаление товара """
     model = Good
     template_name = 'good_delete.html'
 
-    # Переопределение метода для добавления сообщения об успешном удалении
     def post(self, request, *args, **kwargs):
         self.success_url = reverse('good_index', kwargs={'pk': Good.objects.get(pk=kwargs['pk']).
                                    category.pk}) + '?page=' + self.request.GET['page'] + \

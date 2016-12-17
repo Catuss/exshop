@@ -2,7 +2,6 @@ from goods.models import Good
 from django import forms
 
 
-# Форма для правки товара
 class GoodForm(forms.ModelForm):
     class Meta:
         model = Good

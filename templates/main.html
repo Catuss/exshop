@@ -3,7 +3,6 @@
 {# Основной шаблон задающий боковое меню, навбар #}
 {% load staticfiles %}
 
-{# блок навигации #}
 {% block content %}
 
 <nav class="navbar navbar-default">
@@ -58,17 +57,19 @@
                     <p><a href="/logout/">Выйти</a></p>
                 </div>
             </div>
-        {% endif %}
+    {% endif %}
         </div>
+
     {# блок с основным контентом #}
     <div class="col-md-10">{% block main %}{% endblock %}</div>
-</div>
 
-    {# Подвал с копирайтом #}
+
     <footer class="footer">
       <div class="container">
         <p class="text-muted" style="float: right;">Все права принадлежат разработчикам сайта</p>
       </div>
     </footer>
 </div>
+</div>
+
 {% endblock %}

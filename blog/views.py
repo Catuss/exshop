@@ -12,8 +12,11 @@ from blog.models import Blog
 from django.db.models import Q
 
 
-# Контроллер вывода списка постов
 class BlogListView(ArchiveIndexView, CategoryListMixin):
+    """
+    Контроллер отвечает за вывод списка постов
+
+    """
     model = Blog
     date_field = 'posted'
     template_name = 'blog_index.html'
@@ -21,9 +24,12 @@ class BlogListView(ArchiveIndexView, CategoryListMixin):
     allow_empty = True
     allow_future = True
 
-    # При запросе поиска или поиска по тегу
-    # в контекст передается queryset соответствующий заданным параметрам
+
     def get_queryset(self):
+        """
+        Если указаны параметры поиска
+        возвращает список соответствующих записей, или сообщение об ошибке
+        """
         blog = super(BlogListView, self).get_queryset()
         try:
             search = self.request.GET['search']
@@ -44,32 +50,31 @@ class BlogListView(ArchiveIndexView, CategoryListMixin):
         return blog
 
 
-# Контроллер для вывода страницы определенного поста,
-# параметр pk по умолчанию берется из url
-# Благодаря классам PageNumberView SearchMixin, PageNumberMixin,
-# При нажатии кнопки назад пользователь перейдет на ту страницу,
-# с которой он перешел на страницу поста
 class BlogDetailView(PageNumberView, DetailView,  PageNumberMixin):
+    """ Контроллер отображает страницу отдельного поста """
     model = Blog
     template_name = 'blog_detail.html'
     
 
-# Контроллер создания записи
 class BlogCreate(SuccessMessageMixin, CreateView, CategoryListMixin):
+    """ Контроллер для создания записи """
     form_class = BlogForm
     model = Blog
     template_name = 'blog_create.html'
     success_url = reverse_lazy('blog_index')
     success_message = 'Статья успешно создана'
 
-    # Подставляет в поле автора текущего юзера
     def form_valid(self, form):
+        """
+         Метод подставляет в поле автора текущего юзера
+
+        """
         form.instance.user = self.request.user
         return super(BlogCreate, self).form_valid(form)
 
 
-# Контроллер удаления записи, параметр pk берется из url
 class BlogDelete(PageNumberView, DeleteView, PageNumberMixin):
+    """ Контроллер удаления записи """
     model = Blog
     template_name = 'blog_delete.html'
     success_url = reverse_lazy('blog_index')
@@ -79,8 +84,8 @@ class BlogDelete(PageNumberView, DeleteView, PageNumberMixin):
         return super(BlogDelete, self).post(request, *args, **kwargs)
 
 
-# Контроллер правки записи, pk берется из url
 class BlogUpdate(PageNumberView, TemplateView,  PageNumberMixin):
+    """ Контроллер правки записи """
     blog = None
     template_name = 'blog_edit.html'
     form = None
@@ -88,6 +93,10 @@ class BlogUpdate(PageNumberView, TemplateView,  PageNumberMixin):
     # Выводит форму только если пользователь является автором, или суперпользователем
     # Иначе редиректит на страницу логина
     def get(self, request,  *args, **kwargs):
+        """
+        Отображает форму только если пользователь является автором записи, или суперпользователем
+
+        """
         self.blog = Blog.objects.get(pk=self.kwargs['pk'])
         if self.blog.user == request.user or request.user.is_superuser:
             self.form = BlogForm(instance=self.blog)
@@ -95,7 +104,6 @@ class BlogUpdate(PageNumberView, TemplateView,  PageNumberMixin):
         else:
             return redirect(reverse('login'))
 
-    # Добавление в контекст переменных формы и поста
     def get_context_data(self, **kwargs):
         context = super(BlogUpdate, self).get_context_data(**kwargs)
         context['blog'] = self.blog
@@ -107,6 +115,11 @@ class BlogUpdate(PageNumberView, TemplateView,  PageNumberMixin):
     # Редирект на страницу с которой пришел пользователь, с учетом параметров поиска, пагинации и тегов
     # Если пользователь не автор и не суперпользователь - редирект на страницу регистрации
     def post(self, request, *args, **kwargs):
+        """
+        Дополнительная проверка, является ли пользователь автором поста или суперпользователем
+        Сохранение формы, переадресация на страницу с которой пришел пользователь, или страницу логина
+
+        """
         self.blog = Blog.objects.get(pk=self.kwargs['pk'])
         if self.blog.user == request.user or request.user.is_superuser:
             self.form = BlogForm(request.POST, instance=self.blog)

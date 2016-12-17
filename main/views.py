@@ -3,10 +3,11 @@ from generic.mixins import CategoryListMixin
 from news.models import New
 from goods.models import Good
 
-# Это приложение содержит единственный контроллер, который выводит
-# список последних новостей и список рекомендуемых товаров
 
 class MainPageView(TemplateView, CategoryListMixin):
+    """
+     Контроллер отображает список последних новостей и рекомендуемых товаров
+    """
     template_name = 'main_page.html'
     news = New.objects.all()[:5]
     goods = Good.objects.filter(featured=True)

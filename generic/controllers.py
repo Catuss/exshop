@@ -1,10 +1,12 @@
 from django.views.generic.base import View
 
 
-# Класс заполняющий параметры сортировки, поиска и поиска по тегам
-# данными из GET запроса, либо пустыми значениями
-
 class PageNumberView(View):
+    """
+    Класс добавляет локальные переменные поиска и поиска по тегам
+    Присваивает им значение из GET запроса, либо пустую строку.
+
+    """
     def get(self, request,  *args, **kwargs):
         try:
             self.search = self.request.GET['search']
@@ -17,8 +19,11 @@ class PageNumberView(View):
         return super(PageNumberView, self).get(request, *args, **kwargs)
 
 
-# Добавляет к url'у GET параметр текущей страницы пагинатора, поиска и тегов
     def post(self, request, *args, **kwargs):
+        """
+        Добавляет к success_url'у страницу пагинатора и параметры поиска
+
+        """
         try:
             pn = request.GET['page']
         except KeyError:

@@ -5,12 +5,14 @@ from django.contrib import messages
 from categories.models import Category
 from generic.mixins import CategoryListMixin
 
-# Объявление набора форм
+
 CategoriesFormset = modelformset_factory(Category, can_delete=True, fields=['name', 'order'])
 
-
-# Контроллер для редактирования списка категорий
 class CategoriesEdit(TemplateView, CategoryListMixin):
+    """
+    Контроллер для редактирования списка категорий
+
+    """
     template_name = 'categories_edit.html'
     formset = None
 

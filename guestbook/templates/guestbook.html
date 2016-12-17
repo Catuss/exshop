@@ -4,7 +4,6 @@
 
 {% block main %}
 
-{# Подключение шаблона сообщений #}
 {% include 'generic/messages.html' %}
 
 <h2>Гостевая книга</h2>
@@ -40,7 +39,6 @@
     {% endfor %}
 {% endif %}
 
-{# Подключение шаблона пагинации #}
 {% include 'generic/pagination.html' %}
 
 {% endblock %}

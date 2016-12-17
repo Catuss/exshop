@@ -9,9 +9,8 @@ from generic.controllers import PageNumberView
 from django.db.models import Q
 
 
-# Контроллер вывода списка новостей отсортированных по дате
-
 class NewsListView(PageNumberView, ArchiveIndexView, CategoryListMixin):
+    """ Контроллер отвечает за вывод списка новостей """
     model = New
     date_field = 'posted'
     template_name = 'news_index.html'
@@ -20,6 +19,10 @@ class NewsListView(PageNumberView, ArchiveIndexView, CategoryListMixin):
     allow_future = True
 
     def get_queryset(self):
+        """
+        Если указаны параметры поиска
+        возвращает список соответствующих новостей, или сообщение об ошибке
+        """
         queryset = super(NewsListView, self).get_queryset()
         try:
             search = self.request.GET['search']
@@ -35,18 +38,14 @@ class NewsListView(PageNumberView, ArchiveIndexView, CategoryListMixin):
 
 
 
-# Контроллер вывода подробностей новости
-# PageNumberMixin в списке родителей добавляет в url страницу пагинации,
-# Что бы пользователь при нажатии кнопки назад вернулся на прежнюю страницу
-
 class NewsDetailView(DetailView, PageNumberMixin):
+    """ Контроллер отображающий страницу отдельной новости """
     model = New
     template_name = 'news_detail.html'
 
 
-# Контроллер создания новости
-
 class NewCreate(SuccessMessageMixin, CreateView, CategoryListMixin):
+    """ Контроллер для создания новости """
     model = New
     fields = ['title', 'description', 'content']
     template_name = 'new_create.html'
@@ -54,9 +53,8 @@ class NewCreate(SuccessMessageMixin, CreateView, CategoryListMixin):
     success_message = 'Новость успешно добавлена'
 
 
-# Контроллер редактирования новости
-
 class NewUpdate(SuccessMessageMixin, PageNumberView, UpdateView, PageNumberMixin,):
+    """ Контроллер редактирования новости """
     model = New
     fields = ['title', 'description', 'content']
     template_name = 'new_update.html'
@@ -64,9 +62,8 @@ class NewUpdate(SuccessMessageMixin, PageNumberView, UpdateView, PageNumberMixin
     success_message = 'Новость успешно изменена'
 
 
-# Контроллер удаления новости
-
 class NewDelete(PageNumberView, DeleteView, PageNumberMixin):
+    """ Контроллер удаления новости """
     model = New
     template_name = 'new_delete.html'
     success_url = reverse_lazy('news_index')

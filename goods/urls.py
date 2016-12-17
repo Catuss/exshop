@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import permission_required
 
 
 # Правка товаров доступна только пользователям с соответствующими правами
-
 urlpatterns = [
     url(r'^(?P<pk>\d+)/$', GoodListView.as_view(), name='good_index'),
     url(r'^(?P<pk>\d+)/detail/$', GoodDetailView.as_view(), name='good_detail'),

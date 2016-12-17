@@ -18,7 +18,6 @@
 
 
 {# Список последних новостей #}
-
     {% for object in latest %}
         <h4><a href="{% url 'news_detail' pk=object.pk %}?page={{ page_obj.number }}">
             {{ object.title }}
@@ -30,7 +29,6 @@
 
 {# Если у текущего пользователя есть права добавления новостей #}
 {# выводится ссылки на страницы изменения и удаления новости #}
-
         <p class="buttons bottom-indent">
             {% if perms.news.change_new %}
                 <a href="{% url 'news_edit' pk=object.pk %}?page={{ page_obj.number }}">
@@ -44,9 +42,6 @@
             {% endif %}
         </p>
     {% endfor %}
-
-
-{# Подключение шаблона для пагинации #}
 
 {% include 'generic/pagination.html' %}
 

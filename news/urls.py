@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import permission_required
 from news.views import NewsListView, NewsDetailView, NewCreate, NewUpdate, NewDelete
 
 # Страницы добавления, правки и удаления новости доступны только если у пользователя есть на это права
-
 urlpatterns = [
     url(r'^$', NewsListView.as_view(), name='news_index'),
     url(r'^(?P<pk>\d+)/$', NewsDetailView.as_view(), name='news_detail'),
