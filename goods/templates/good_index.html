@@ -40,6 +40,10 @@
 
         <input type="submit" value="Сортировать">
     </form>
+    <form action="" class="search_good">
+        <input  type="text" name="search" placeholder="Что ищем?">
+        <input type="submit" value="Искать">
+    </form>
 </div>
 
 {# таблица товаров #}
@@ -76,10 +80,13 @@
         <td>{{object.description}}</td>
 
             {# если указана цена со скидкой, выводятся оба числа, а старая цена выводится перечеркнутой #}
-        <td class="centered">{%if object.price_acc > 0%}
+        <td class="centered">{% if object.price_acc %}
             <span class="old-price">{{object.price}}</span><br>
-            {{object.price_acc}}{%else%}{{object.price}}
-            {%endif%}</td>
+            <span class="price">{{object.price_acc}}</span>
+            {%else%}
+            <span class="price">{{object.price}}</span>
+            {%endif%}
+        </td>
 
             {# если товар в наличии выводится + #}
         <td class="centered">{%if object.in_stock%}+{%endif%}</td>

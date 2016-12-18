@@ -5,11 +5,8 @@ import json
 from imagepool.models import ImagePool
 
 
-# Контроллер для получения списка изображений в хранилище
 def get_list(request):
-
-    # Настройки для пагинации. Или страница с которой пришел пользователь
-    # или первая страница списка
+    """ Контроллер возвращает список изображений в хранилище"""
     try:
         page_num = request.GET['page']
     except KeyError:
@@ -45,8 +42,8 @@ def get_list(request):
     return HttpResponse(json.dumps(output), content_type='application/json')
 
 
-# Контроллер для выгрузки файлов
 def upload_file(request):
+    """ Контроллер для загрузки файла в хранилище """
     if request.method == "POST":
         if request.FILES['file_to_upload']:
             image = ImagePool(user=request.user,
@@ -59,8 +56,8 @@ def upload_file(request):
         return HttpResponse("!!!")
 
 
-# Контроллер для удаления файла
 def delete_file(request, pk):
+    """ Контроллер для удаления файла из хранилища """
     try:
         ImagePool.objects.get(pk=pk).delete()
     except ImagePool.DoesNotExist:

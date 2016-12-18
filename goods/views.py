@@ -9,6 +9,8 @@ from generic.controllers import PageNumberView
 from categories.models import Category
 from goods.models import Good, GoodImage
 from goods.forms import GoodForm
+from django.db.models import Q
+from django.contrib.messages import add_message, INFO
 
 
 class GoodListView(ListView, CategoryListMixin):
@@ -23,7 +25,7 @@ class GoodListView(ListView, CategoryListMixin):
 
     def get(self, request, *args, **kwargs):
         """
-        Метод добавляет в контекст категорию  и параметры сортировки
+        Метод добавляет в контекст категорию  и параметры сортировки/поиска
 
         """
         if self.kwargs['pk'] is None:
@@ -38,6 +40,10 @@ class GoodListView(ListView, CategoryListMixin):
             self.instock_order = self.request.GET['instock']
         except KeyError:
             pass
+        try:
+            self.search = self.request.GET['search']
+        except KeyError:
+            self.search = ''
         return super(GoodListView, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -45,6 +51,7 @@ class GoodListView(ListView, CategoryListMixin):
         context['category'] = self.cat
         context['order'] = self.sort_order
         context['instock'] = self.instock_order
+        context['search'] = self.search
         return context
 
     def get_queryset(self):
@@ -52,6 +59,16 @@ class GoodListView(ListView, CategoryListMixin):
         QuerySet формируется в зависимости от параметров сортировки
 
         """
+        try:
+            goods = Good.objects.filter(Q(name__icontains=self.search) |
+                               Q(description__icontains=self.search) |
+                               Q(content__icontains=self.search))
+            if goods.count() < 1:
+                add_message(self.request, INFO, 'По вашему запросу ничего не найдено.')
+            return goods
+        except:
+            pass
+
         goods = Good.objects.filter(category=self.cat)
         try:
             if self.sort_order == '0price':

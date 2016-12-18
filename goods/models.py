@@ -7,6 +7,25 @@ class Good(models.Model):
     class Meta:
         verbose_name = 'товар'
         verbose_name_plural = 'товары'
+
+    def set_acc_price(self, percent=0):
+        """
+         Метод присваивает акционную цену
+         percent - %  скидки, от 0 до 99
+         Возвращает цену с учетом скидки
+
+        """
+        if percent >= 100:
+            percent = 99
+        else:
+            self.price_acc = self.price - (self.price / 100 * percent)
+            self.save()
+            return self.price_acc
+
+    def get_percent(self):
+        """ Метод возвращает процент скидки """
+        return self.price_acc * 100 / self.price
+
     name = models.CharField(max_length=50, unique=True, db_index=True, verbose_name='Название')
     category = models.ForeignKey(Category, verbose_name='Категория')
     description = models.TextField(verbose_name='Краткое описание')
