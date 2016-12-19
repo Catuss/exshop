@@ -9,7 +9,7 @@ from generic.controllers import PageNumberView
 from django.db.models import Q
 
 
-class NewsListView(PageNumberView, ArchiveIndexView, CategoryListMixin):
+class NewsListView(ArchiveIndexView, CategoryListMixin):
     """ Контроллер отвечает за вывод списка новостей """
     model = New
     date_field = 'posted'
@@ -47,7 +47,7 @@ class NewsDetailView(DetailView, PageNumberMixin):
 class NewCreate(SuccessMessageMixin, CreateView, CategoryListMixin):
     """ Контроллер для создания новости """
     model = New
-    fields = ['title', 'description', 'content']
+    fields = ['title', 'pic', 'description', 'content']
     template_name = 'new_create.html'
     success_url = reverse_lazy('news_index')
     success_message = 'Новость успешно добавлена'
@@ -56,7 +56,7 @@ class NewCreate(SuccessMessageMixin, CreateView, CategoryListMixin):
 class NewUpdate(SuccessMessageMixin, PageNumberView, UpdateView, PageNumberMixin,):
     """ Контроллер редактирования новости """
     model = New
-    fields = ['title', 'description', 'content']
+    fields = ['title', 'pic', 'description', 'content']
     template_name = 'new_update.html'
     success_url = reverse_lazy('news_index')
     success_message = 'Новость успешно изменена'

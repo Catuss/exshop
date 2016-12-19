@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 
 class Blog(models.Model):
     title = models.CharField(max_length=100, unique_for_date='posted', verbose_name='Заголовок')
+    pic = models.ImageField(upload_to='blog', blank=True, null=True, verbose_name='Основное изображение')
     description = models.TextField(verbose_name='Краткое содержание')
     content = models.TextField(verbose_name='Полное содержание')
     posted = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Дата публикации')

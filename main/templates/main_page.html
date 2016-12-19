@@ -9,16 +9,26 @@
 </div>
 
 <h3>Новости</h3>
-
 {# Список последних новостей #}
-{% for object in news %}
-    <h3><a href="{% url 'news_detail' pk=object.pk %}">
-        {{ object.title }}
-    </a></h3>
-    <p>{{ object.description }}</p>
-                {# дата в формате день.месяц.год:часы.минуты #}
-    <p class="posted">{{ object.posted|date:'j.m.Y.H:i' }}</p>
-{% endfor %}
+<div class="news_list">
+        {% for object in latest %}
+        <div class="new">
+            <div class="news_header">
+                <h4 class="title"><a href="{% url 'news_detail' pk=object.pk %}?page={{ page_obj.number }}
+                                            {% if search %}&search={{ search }}{% endif %}">
+                    {{ object.title }}
+                </a></h4>
+                <p class="date">{{ object.posted|date:'j.m.Y.H:i' }}</p>
+            </div>
+            <div class="news_body">
+                <div class="thumb"><img src="{% thumbnail object.pic 200x300 %}" class="img-thumbnail"></div>
+                <div class="desc"><p class="description">{{ object.description }}</p></div>
+            </div>
+        </div>
+        <hr>
+        {% endfor %}
+
+{#<!--{% include 'list_item/news_list.html' %}-->}#}
 
 {# Список рекомендуемых товаров в виде таблицы #}
 <h3>Рекомендуемые товары</h3>

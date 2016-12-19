@@ -4,12 +4,24 @@
 {# Выводит таблицу с четырмя изображениями и ссылками навигации #}
 <table id="imagepool_image_list" href="{% url 'imagepool_index' %}">
     <tr>
-        <td class="link"><a href="#" id="imagepool_prev">&lt;</a></td>
+        <td class="link">
+            <a href="#" id="imagepool_prev">
+                <button type="button" class="btn btn-md" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+                </button>
+            </a>
+        </td>
         <td class="image">&nbsp;</td>
         <td class="image">&nbsp;</td>
         <td class="image">&nbsp;</td>
         <td class="image">&nbsp;</td>
-        <td class="link"><a href="#" id="imagepool_next">&gt;</a></td>
+        <td class="link">
+            <a href="#" id="imagepool_next">
+                <button type="button" class="btn btn-md" aria-label="Left Align">
+                    <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+                </button>
+            </a>
+        </td>
     </tr>
 </table>
 

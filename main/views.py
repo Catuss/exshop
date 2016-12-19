@@ -14,7 +14,7 @@ class MainPageView(TemplateView, CategoryListMixin):
 
     def get_context_data(self, **kwargs):
         context = super(MainPageView, self).get_context_data(**kwargs)
-        context['news'] = self.news
+        context['latest'] = self.news
         context['goods'] = self.goods
         return context
 

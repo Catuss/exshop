@@ -9,4 +9,5 @@ class New(models.Model):
     title = models.CharField(max_length=100, unique_for_date='posted', verbose_name='Заголовок')
     description = models.TextField(verbose_name='Краткое описание')
     content = models.TextField(verbose_name='Полное содержание')
+    pic = models.ImageField(upload_to='news', blank=True, null=True, verbose_name="Основное изображение")
     posted = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Опубликована')

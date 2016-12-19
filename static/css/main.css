@@ -1,0 +1,42 @@
+.news_header, .blog_header, .title_date, .feedback_head, .new, .taglist, .good_head{
+    overflow: hidden;
+    }
+
+h4.title, p.tags {
+    display: inline;
+    float: left;
+    }
+
+p.date, p.autor {
+    display: inline;
+    float: right;
+    }
+
+p.guest_autor {
+    display: inline;
+    float: left;
+    }
+
+.thumb {
+    width: 30%;
+    float: left;
+    display: inline;
+    }
+.desc {
+    width: 70%;
+    float: right;
+    display: inline;
+    }
+
+
+.good_images {
+    width: 60%;
+    float: left;
+    display: inline;
+    }
+.good_att {
+    width: 40%;
+    float: right;
+    display: inline;
+    }
+

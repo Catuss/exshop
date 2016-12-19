@@ -90,8 +90,6 @@ class BlogUpdate(PageNumberView, TemplateView,  PageNumberMixin):
     template_name = 'blog_edit.html'
     form = None
 
-    # Выводит форму только если пользователь является автором, или суперпользователем
-    # Иначе редиректит на страницу логина
     def get(self, request,  *args, **kwargs):
         """
         Отображает форму только если пользователь является автором записи, или суперпользователем
@@ -110,10 +108,6 @@ class BlogUpdate(PageNumberView, TemplateView,  PageNumberMixin):
         context['form'] = self.form
         return context
 
-    # Заполнение и отправка формы с дополнительной проверкой, является ли пользователь
-    # автором или суперпользователем.
-    # Редирект на страницу с которой пришел пользователь, с учетом параметров поиска, пагинации и тегов
-    # Если пользователь не автор и не суперпользователь - редирект на страницу регистрации
     def post(self, request, *args, **kwargs):
         """
         Дополнительная проверка, является ли пользователь автором поста или суперпользователем
@@ -122,7 +116,7 @@ class BlogUpdate(PageNumberView, TemplateView,  PageNumberMixin):
         """
         self.blog = Blog.objects.get(pk=self.kwargs['pk'])
         if self.blog.user == request.user or request.user.is_superuser:
-            self.form = BlogForm(request.POST, instance=self.blog)
+            self.form = BlogForm(request.POST, request.FILES, instance=self.blog)
             if self.form.is_valid():
                 self.form.save()
                 messages.add_message(request, messages.SUCCESS, 'Статья успешно изменена')

@@ -1,43 +1,47 @@
 {% extends 'main.html' %}
 
 {% load bbcode_tags %}
+{% load thumbnail %}
 
 {% block title %}{{ object.title }}{% endblock %}
 
 {% block main %}
 
-{# Заголовок статьи #}
-<h2>{{ object.title }}</h2>
-
-{# Содержание поста #}
-<p>{{ object.content|bbcode|safe }}</p>
-
-{# Имя пользователя #}
-<p class="text-left">
-     {% if object.user.get_full_name %}
-        <h4>Автор: {{ object.user.get_full_name }}</h4>
+<div class="blog_header">
+    <h2 class="title">{{ object.title }}</h2>
+    <h4 class="date">{{ object.posted|date:'j.m.Y.H:i' }}</h4>
+    {% if object.user.get_full_name %}
+        <h4 class="autor">Автор: {{ object.user.get_full_name }}</h4>
     {% else %}
-        <h4>Автор: {{ object.user.get_username }}</h4>
+        <h4 class="autor">Автор: {{ object.user.get_username }}</h4>
     {% endif %}
-</p>
+</div>
 
-{# Дата публикации и список тегов #}
-<p class="posted">{{ object.posted|date:'j.m.Y.H:i:s' }}</p>
-    {% with names=object.tags.names %}
-        {% if names.count > 0 %}
-            <p class="tags">{% for name in names %}
-                {% if not forloop.first %},{% endif %}
-                <a href="{% url 'blog_index' %}?tag={{ name|urlencode }}">{{ name }}</a>
+<div class="blog_content">
+    <img src="{% thumbnail object.pic 500x300 %}" class="img-thumbnail" >
+    <p class="content">
+        {{ object.content|bbcode|safe }}
+    </p>
+</div>
+
+<div class="taglist">
+    {% with tags=object.tags.names %}
+        {% if tags.count > 0 %}
+            <p class="tags">
+                Тэги:
+                {% for tag in tags %}
+                    {% if not forloop.first %},{% endif %}
+                    <a href="{% url 'blog_index' %}?tag={{ name|urlencode }}">{{ tag }}</a>
                 {% endfor %}
             </p>
         {% endif %}
     {% endwith %}
+</div>
 
-{# ссылка для возврата #}
 <button type="button" class="btn btn-default">
     <a href="{% url 'blog_index' %}?page={{ pn }}{% if search %}
             &search={{ search }}{% endif %}{% if tag %}&tag={{ tag }}{% endif %}">
         Назад</a></button>
 
-<p>&nbsp;</p>
+<p>&nbsp</p>
 {% endblock %}

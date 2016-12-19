@@ -16,18 +16,21 @@
 
 {# форма #}
 <div class="form">
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
 
         {# Подгрузка шаблона формы #}
         {% include 'generic/form.html' %}
         <div class="submit-button">
             <input type="submit" value="Добавить">
         </div>
+        <hr>
     </form>
 </div>
 
 {# Подгрузка шаблона хранилища файлов #}
 {% include 'generic/file_lister.html' %}
+
+<hr>
 
 {# ссылка для возврата #}
 <p><a href="{% url 'blog_index' %}">Назад</a></p>

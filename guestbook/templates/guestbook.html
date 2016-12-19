@@ -7,6 +7,24 @@
 {% include 'generic/messages.html' %}
 
 <h2>Гостевая книга</h2>
+    <div class="feedback_list">
+        {% if object_list.count > 0 %}
+            {%for object in latest %}
+                <div class="feedback_obj">
+                    <div class="feedback_head">
+                        <p class="guest_autor">{{ object.user }}</p>
+                        <p class="date">{{ object.posted|date:'j.m.H:i:s' }}</p>
+                    </div>
+                    <div class="feedback_body">
+                        <p class="feedback">{{ object.content }}</p>
+                    </div>
+                </div>
+                <hr>
+            {% endfor %}
+        {% endif %}
+     </div>
+
+{% include 'generic/pagination.html' %}
 
 <div class="form bottom-indent">
     <form action="" method="post">
@@ -18,27 +36,5 @@
         </div>
     </form>
 </div>
-<br>
-
-{# Если в гостевой книге есть записи, вывод их в виде таблицы #}
-{% if object_list.count > 0 %}
-    {%for object in latest %}
-        <table class="table table-bordered">
-            <thead>
-              <tr>
-                <th><h5>{{object.user}}</h5></th>
-                <th><h6>{{ object.posted|date:'j.m.y.H.i' }}</h6></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td colspan="2"><p>{{ object.content }}</p></td>
-              </tr>
-            </tbody>
-          </table>
-    {% endfor %}
-{% endif %}
-
-{% include 'generic/pagination.html' %}
 
 {% endblock %}

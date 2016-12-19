@@ -1,0 +1,66 @@
+{# Список постов #}
+{% load thumbnail %}
+<div class="blog_list">
+{% for object in latest %}
+    <div class="blog_article">
+        <div class="blog_header">
+            <div class="title_date">
+                {# Заголовок, с ссылкой на страницу подробностей #}
+                <h4 class="title"><a href="{% url 'blog_detail' pk=object.pk %}?page={{ page_obj.number}}
+                                {% if search %}&search={{ search }}{% endif %}
+                                {% if tag %}&tag={{ tag }}{% endif %}">
+                    {{ object.title }}
+                </a></h4>
+                <p class="date">{{ object.posted|date:'j.m.H:i:s' }}</p>
+            </div>
+            {# Имя автора #}
+            <p class="autor">
+                {% if object.user.get_full_name %}
+                   Автор: {{ object.user.get_full_name }}
+                {% else %}
+                   Автор: {{ object.user.get_username }}
+                {% endif %}
+            </p>
+            <p class="tags">
+                {# Список тегов поста #}
+                {% with tags=object.tags.names %}
+                    {% if tags.count > 0 %}
+                        Тэги:
+                            {% for tag in tags %}
+                                {% if not forloop.first %},{% endif %}
+                                    <a href="{% url 'blog_index' %}?tag={{ tag|urlencode }}">
+                                        {{ tag }}
+                                    </a>
+                            {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </p>
+        </div>
+        <div class="blog_body">
+
+            <img src="{% thumbnail object.pic 500x300 %}" class="img-thumbnail">
+            <p class="description">{{ object.description }}</p>
+
+            {# Если у пользователя есть соответствующие права #}
+            {# Вывод ссылок на страницу правки поста #}
+            {% if user == object.user or user.is_superuser %}
+                <p class="buttons">
+                    {% if perms.blog.change_blog %}
+                        <a href="{% url 'blog_edit' pk=object.pk %}?page={{ page_obj.number}}
+                            {% if search %}&search={{ search }}{% endif %}
+                            {% if tag %}&tag={{ tag }}{% endif %}">Изменить</a>
+                    {% endif %}
+
+                {# Если у пользователя есть соответствующие права #}
+                {# Вывод ссылок на страницу удаления поста #}
+                {% if perms.blog.delete_blog %}
+                    <a href="{% url 'blog_delete' pk=object.pk %}?page={{ page_obj.number}}
+                            {% if search %}&search={{ search }}{% endif %}
+                            {% if tag %}&tag={{ tag }}{% endif %}">Удалить</a>
+                {% endif %}
+                </p>
+            {% endif %}
+        </div>
+</div>
+{% endfor %}
+</div>

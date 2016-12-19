@@ -1,11 +1,19 @@
 {% extends 'main.html' %}
 {% load bbcode_tags %}
+{% load thumbnail %}
 {% block title %}{{ object.title }}{% endblock %}
 {% block main %}
+<div class="news_header">
+    <h2 class="title">{{object.title }}</h2>
+    <h4 class="date">{{ object.posted|date:'j.m.Y.H:i' }}</h4>
+</div>
+<div class="news_content">
+    <img src="{% thumbnail object.pic 500x300 %}" class="img-thumbnail" >
+    <p class="content">
+        {{ object.content|bbcode|safe }}
+    </p>
+</div>
 
-    <h2>{{object.title }}</h2>
-    <div>{{ object.content|bbcode|safe }}</div>
-    <p class="posted">{{ object.posted|date:'j.m.Y.H:i' }}</p>
-    <p><a href="{% url 'news_index' %}?page={{ pn }}">Назад</a></p>
+<p><a href="{% url 'news_index' %}?page={{ pn }}">Назад</a></p>
 
 {% endblock %}

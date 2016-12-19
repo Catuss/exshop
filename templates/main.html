@@ -3,6 +3,10 @@
 {# Основной шаблон задающий боковое меню, навбар #}
 {% load staticfiles %}
 
+{% block additional_css %}
+<link href="{% static 'static/css/main.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 
 <nav class="navbar navbar-default">

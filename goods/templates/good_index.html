@@ -47,12 +47,12 @@
 </div>
 
 {# таблица товаров #}
-<table class="list-table">
+<table class="table">
     <tr>
         <th>Миниатюра</th>
-        <th>Название</th>
-        <th>Описание</th>
-        <th>Цена</th>
+        <th>Название </th>
+        <th>Описание </th>
+        <th>Цена     </th>
         <th>В наличии</th>
 
         {# поля для ссылок на служебные страницы для пользователей с соответствующими правами #}
@@ -70,7 +70,7 @@
             {# изображение товара с ссылкой на деталку #}
         <td class="centered"><a href="{%url 'good_detail' pk=object.pk%}?page={{page_obj.number}}
                                         &sort={{sort}}&order={{order}}">
-            <img src="{%thumbnail object.image 'base' %}"></a></td>
+            <img src="{%thumbnail object.image 'base' %}" class="img-thumbnail"></a></td>
 
             {#  Название с ссылкой на деталку #}
         <td><a href="{%url 'good_detail' pk=object.pk%}?page={{page_obj.number}}
@@ -89,7 +89,7 @@
         </td>
 
             {# если товар в наличии выводится + #}
-        <td class="centered">{%if object.in_stock%}+{%endif%}</td>
+        <td class="centered">{%if object.in_stock%}В наличии{%endif%}</td>
 
             {# ссылка на служебную страницу изменения товара #}
         {%if perms.page.change_good%}

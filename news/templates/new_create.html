@@ -14,16 +14,18 @@
 
     <h2>Добавление новости</h2>
 <div class="form">
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
         {% include 'generic/form.html' %}   {# Подключение шаблона формы #}
         <div class="submit-button">
             <input type="submit" value="Добавить">
         </div>
     </form>
 </div>
-
+<hr>
 
 {% include 'generic/file_lister.html' %}
+
+<hr>
 
 <p><a href="{% url 'news_index' %}">Назад</a></p>
 
