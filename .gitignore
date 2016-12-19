@@ -1,3 +1,4 @@
 /.ide/*
+/.idea/*
 *.pyc
 *.sqlite3
