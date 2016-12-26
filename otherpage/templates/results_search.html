@@ -1,0 +1,27 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block main %}
+{% if results.count < 1 %}
+<div class="row">
+	<div class="col-md-12">
+		{% include 'generic/negative_search.html' %}
+	</div>
+</div>
+{% else %}
+<div class="row">
+{% for object in results %}
+	{% if forloop.counter0 in  numbs %}
+		</div> {# начало следующей строки #}
+		<div class="row">
+	{% endif %}
+	<div class="col-md-3 item">
+		<div class="img">
+			<img class="item_image" title="{{object.description}}" src="{% thumbnail object.image 'base' %}">
+		</div>
+		<a href="{% url 'good_detail' pk=object.pk %}"><p class="item_name">{{ object.name }}</p></a>
+	</div>
+{% endfor %}
+</div>
+{% endif %}
+{% endblock %}

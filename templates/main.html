@@ -1,79 +1,72 @@
 {% extends 'base.html' %}
-
-{# Основной шаблон задающий боковое меню, навбар #}
 {% load staticfiles %}
-
-{% block additional_css %}
-<link href="{% static 'static/css/main.css' %}" rel="stylesheet">
-{% endblock %}
-
 {% block content %}
-
-<nav class="navbar navbar-default">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="#">Brandname</a>
-        </div>
-    <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-            <li class="active"><a href="{% url 'main' %}">На главную</a></li>
-            <li><a href="{% url 'about' %}">О сайте</a></li>
-            <li><a href="{% url 'news_index' %}">Новости</a></li>
-            <li><a href="{% url 'contact' %}">Контакты</a></li>
-            <li><a href="{% url 'guestbook' %}">Гостевая</a></li>
-            <li><a href="{% url 'blog_index' %}">Блог</a></li>
-        </ul>
-    </div>
-    </div>
-</nav>
-
-<div class="container">
-<div class="row">
-    <div class="col-md-2">
-
-        {# Панель со списком категорий #}
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h1 class="panel-title">Категории товаров</h1>
-            </div>
-            <div class="panel-body">
-                {% for object in categories %}
-                    <p><a href="{% url 'good_index' pk=object.pk %}">{{ object.name }}</a></p>
-                {% endfor %}
-            </div>
+<div class="container-fluid">
+    <div class="row site_header" >
+        <div class="col-md-2 header_logo">
+            <a href="{% url 'main_page' %}">
+                <img src="{% static 'static/image/logo.png' %}" id="logo">
+            </a>
         </div>
 
-        {# Если пользователь авторизован, отображается служебная панель со ссылками на страницы админки #}
-        {% if user.is_authenticated %}
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h1 class="panel-title">служебная панель</h1>
+        <div class="col-md-2 nav_col">
+            <span id='nav_text'>
+                <h4>Show navbar</h4>
+            </span>
+
+        </div>
+        <div class="col-md-8 coolCitat">
+            <div class="area"><h3 class="lw" id="marksay">"Nobody ever pays here...not with money</h3></div>
+            {% if cart_count > 0 %}
+                <div class="cart_item" title="{% for i in cart_item %}{{ i }}  {% endfor %}">
+                    <a href="{% url 'cart' %}"><h4>Товаров в корзине: {{cart_count}}</h4></a>
                 </div>
-                <div class="panel-body">
-                    <p></p><a href="{% url 'categories_edit' %}">Категории</a></p>
-                    <p><a href="/admin/">Админка</a></p>
-                    <p><a href="/logout/">Выйти</a></p>
+            {% else %}
+                <div class="cart_item">
+                    <h4>You <a href="{% url 'cart' %}">cart</a> is empty :(</h4>
                 </div>
-            </div>
-    {% endif %}
+                   
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row site_header" id="navbar">
+
+        <div class="col-md-2 nav_div">
+            <p class="navbar_link"><a href="{% url 'main_page' %}" >Main</a></p>
         </div>
 
-    {# блок с основным контентом #}
-    <div class="col-md-10">{% block main %}{% endblock %}</div>
+        <div class="col-md-2 nav_div">
+            <p class="navbar_link"><a href="{% url 'catalog' %}" >Catalogue</a></p>
+        </div>
 
+        <div class="col-md-2 nav_div">
+            <p class="navbar_link"><a href="{% url 'guestbook' %}" >Feedback</a></p>
+        </div>
 
-    <footer class="footer">
-      <div class="container">
-        <p class="text-muted" style="float: right;">Все права принадлежат разработчикам сайта</p>
-      </div>
-    </footer>
+        <div class="col-md-2 nav_div">
+            <p class="navbar_link"><a href="{% url 'contact' %}" >Contacts</a></p>
+        </div>
+        <div class="col-md-4 head_search">
+            <form action="{% url 'results' %}" id="sform" class="form form-inline">
+                <input type="text" name="search" placeholder="Need something?" id="stext">
+                <input type="submit" value="Search" id="sinput">
+            </form>
+        </div>
+    </div>
 </div>
-</div>
+<div class="conteiner-fluid main">
+    {% block main %}
+    {% endblock %}
+<!--     <div class="row">
+        <div class="col-md-12">
+            <div class="foot">
+                <h4 class='lw'>Github link: <a href="https://github.com/Catuss/exshop">https://github.com/Catuss/exshop</a></h>
+            </div>
+        </div>
+    </div>
+</div> -->
+<script src="{% static 'static/js/cart_item.js' %}"></script>
+<script src="{% static 'static/js/hide_navbar.js' %}"></script>
 
 {% endblock %}

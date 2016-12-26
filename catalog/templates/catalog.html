@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+{% block main %}
+{% load staticfiles %}
+{% load thumbnail %}
+
+<div class="container-fluid cat_list">
+	<div class="row">
+	{% for object in good_list %}
+		{% if forloop.counter0 in  numbs %}
+			</div> {# начало следующей строки #}
+			<div class="row">
+		{% endif %}
+		<div class="col-md-3 item">
+			<div class="img">
+				<img class="item_image" title="{{object.description}}" src="{% thumbnail object.image 'base' %}">
+			</div>
+			<a href="{% url 'good_detail' pk=object.pk %}"><p class="item_name">{{ object.name }}</p></a>
+		</div>
+	{% endfor %}
+	</div>
+	{% include 'generic/pagination.html' %}
+</div>
+<script src="{% static 'static/js/catalog_tips.js' %}"></script>
+{% endblock %}

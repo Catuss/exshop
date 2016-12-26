@@ -1,22 +1,39 @@
 {% extends 'main.html' %}
+{% load staticfiles %}
 
 {% block title %}Гостевая книга{% endblock %}
 
 {% block main %}
+<div class="row guestbook_slug">
+
+    <div class="col-md-3 guest_img">
+        <img  src="{% static 'static/image/Lucius_2.png' %}" id='guest_img'>
+    </div>
+    <div class="col-md-9 guest_word">
+        <h2 class="lw">Leave your feedback, comments, complaints, and other crap here</h2>
+        <form action="" method="post" class="feed_form">
+            {% include 'generic/form.html' %}
+            <div class="submit-button">
+                <input type="submit" value="Добавить">
+            </div>
+        </form>
+    </div>
+<hr>    
+</div>
 
 {% include 'generic/messages.html' %}
 
-<h2>Гостевая книга</h2>
+<h2 class="last_feed">Latest feedback</h2>
     <div class="feedback_list">
         {% if object_list.count > 0 %}
             {%for object in latest %}
                 <div class="feedback_obj">
                     <div class="feedback_head">
-                        <p class="guest_autor">{{ object.user }}</p>
-                        <p class="date">{{ object.posted|date:'j.m.H:i:s' }}</p>
+                        <p class="feed_autor">{{ object.user }}</p>
+                        <p class="feed_date">{{ object.posted|date:'j.m.H:i:s' }}</p>
                     </div>
                     <div class="feedback_body">
-                        <p class="feedback">{{ object.content }}</p>
+                        <p class="feed_text">{{ object.content }}</p>
                     </div>
                 </div>
                 <hr>
@@ -25,16 +42,5 @@
      </div>
 
 {% include 'generic/pagination.html' %}
-
-<div class="form bottom-indent">
-    <form action="" method="post">
-
-        {# Подключение шаблона формы #}
-        {% include 'generic/form.html' %}
-        <div class="submit-button">
-            <input type="submit" value="Добавить">
-        </div>
-    </form>
-</div>
 
 {% endblock %}

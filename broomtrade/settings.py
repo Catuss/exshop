@@ -20,11 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = None
+SECRET_KEY = "sk3tk3y"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-TEMPLATE_DEBUG = False
+DEBUG = True
+
 
 ALLOWED_HOSTS = []
 
@@ -40,16 +40,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'easy_thumbnails',
-    'taggit',
     'precise_bbcode',
-    'main',
     'guestbook',
-    'news',
-    'imagepool',
-    'categories',
-    'goods',
-    'blog',
+    'catalog',
     'otherpage',
+    'cart',
 
 ]
 
@@ -90,11 +85,12 @@ WSGI_APPLICATION = 'broomtrade.wsgi.application'
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'data/site.dat'),
-    }
-}
+     'default': {
+         'ENGINE': 'django.db.backends.sqlite3',
+         'NAME': os.path.join(BASE_DIR, 'data/site.dat'),
+     }
+ }
+
 
 
 # Password validation
@@ -146,8 +142,8 @@ SITE_ID = 1
 
 THUMBNAIL_BASEDIR = 'thumbnails'
 THUMBNAIL_ALIASES = {
-    'goods.Good.image': {
-        'base': {'size': (200, 100)}
+    'catalog.Good.image': {
+        'base': {'size': (150, 130)}
     },
 }
 
@@ -155,3 +151,5 @@ THUMBNAIL_ALIASES = {
 STATICFILES_DIRS = [
     ('static', os.path.join(BASE_DIR, 'static')),
 ]
+
+CART_SESSION_ID = 'cart'

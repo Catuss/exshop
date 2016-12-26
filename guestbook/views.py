@@ -3,10 +3,10 @@ from django.views.generic.dates import ArchiveIndexView
 from django.contrib import messages
 from guestbook.models import GuestBook
 from guestbook.forms import GuestBookForm
-from generic.mixins import CategoryListMixin
+from generic.mixins import Cart_Number_Mixin
 
 
-class GuestBookView(ArchiveIndexView, CategoryListMixin):
+class GuestBookView(Cart_Number_Mixin, ArchiveIndexView):
     """ Контроллер выводит список записей в гостевой книге """
     model = GuestBook
     date_field = 'posted'

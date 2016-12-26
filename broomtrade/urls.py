@@ -16,23 +16,20 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
-from main.views import MainPageView
 from guestbook.views import GuestBookView
-from django.contrib.auth.decorators import login_required
-from categories.views import CategoriesEdit
+from otherpage.views import MainPageView
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^login/', login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/', logout, {'template_name': 'logout.html'}, name='logout'),
-    url(r'^main/', MainPageView.as_view(), name='main'),
     url(r'^guestbook/', GuestBookView.as_view(), name='guestbook'),
-    url(r'^categories/', login_required(CategoriesEdit.as_view()), name='categories_edit'),
-    url(r'^news/', include('news.urls')),
-    url(r'^imagepool/', include('imagepool.urls')),
-    url(r'^goods/', include('goods.urls')),
-    url(r'^blog/', include('blog.urls')),
+    url(r'^catalog/', include('catalog.urls')),
     url(r'^other/', include('otherpage.urls')),
-]
+    url(r'^cart/', include('cart.urls'), name='cart'),
+    url(r'^$', MainPageView.as_view(), name='main_page')
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

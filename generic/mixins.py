@@ -1,31 +1,16 @@
 from django.views.generic.base import ContextMixin
-from categories.models import Category
+from cart.cart import cart_distinct_item_count, get_cart_items
 
 
-class CategoryListMixin(ContextMixin):
-    """
-    Контроллер-примесь добавляет в контекст шаблона список категорий
-    и текущее положение, относительно корня сайта
+class Cart_Number_Mixin(ContextMixin):
 
-    Список категорий нужен для бокового меню
-    Текущее положение для формирования ссылок возврата
-    """
+    def get(self, request, *args, **kwargs):
+        self.cart_count = cart_distinct_item_count(request)
+        self.cart_item = [ i.good for i in get_cart_items(request)]
+        return super(Cart_Number_Mixin, self).get(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
-        context = super(CategoryListMixin, self).get_context_data(**kwargs)
-        context['current_url'] = self.request.path
-        context['categories'] = Category.objects.order_by('order')
-        return context
-
-
-class PageNumberMixin(CategoryListMixin):
-    """
-    Добавляет в контекст шаблона переменную текущей, или первой, страницы пацинации
-
-    """
-    def get_context_data(self, **kwargs):
-        context = super(PageNumberMixin, self).get_context_data(**kwargs)
-        try:
-            context['pn'] = self.request.GET['page']
-        except KeyError:
-            context['pn'] = '1'
+        context = super(Cart_Number_Mixin, self).get_context_data(**kwargs)
+        context['cart_count'] = self.cart_count
+        context['cart_item'] = self.cart_item
         return context

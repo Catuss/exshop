@@ -1,39 +1,20 @@
 from django.db import models
 from django.core.urlresolvers import reverse
-from categories.models import Category
 
 
 class Good(models.Model):
+
+    def __str__(self):
+        return self.name
+
     class Meta:
         verbose_name = 'товар'
         verbose_name_plural = 'товары'
-
-    def set_acc_price(self, percent=0):
-        """
-         Метод присваивает акционную цену
-         percent - %  скидки, от 0 до 99
-         Возвращает цену с учетом скидки
-
-        """
-        if percent >= 100:
-            percent = 99
-        else:
-            self.price_acc = self.price - (self.price / 100 * percent)
-            self.save()
-            return self.price_acc
-
-    def get_percent(self):
-        """ Метод возвращает процент скидки """
-        return self.price_acc * 100 / self.price
+        ordering = ['name']
 
     name = models.CharField(max_length=50, unique=True, db_index=True, verbose_name='Название')
-    category = models.ForeignKey(Category, verbose_name='Категория')
-    description = models.TextField(verbose_name='Краткое описание')
-    content = models.TextField(verbose_name='Полное описание')
-    price = models.FloatField(db_index=True, verbose_name="цена")
-    price_acc = models.FloatField(null=True, blank=True, verbose_name='цена со скидкой')
-    in_stock = models.BooleanField(default=True, db_index=True, verbose_name='Есть в наличии')
-    featured = models.BooleanField(default=False, db_index=True, verbose_name="рекомендуемый")
+    description = models.TextField(verbose_name='Описание')
+    content = models.TextField(default='asd')
     image = models.ImageField(upload_to='goods/list', verbose_name='Основное изображение')
 
     # Если при сохранении изображение меняется

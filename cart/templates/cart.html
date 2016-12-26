@@ -1,0 +1,41 @@
+{% extends "main.html" %}
+{% load thumbnail %}
+
+{% block title %}
+  Ваша корзина товаров
+{% endblock %}
+
+{% block main %}
+<div class="row">
+    <div class="col-md-8"><h1>In you're cart {{item_count}} item</h1></div>
+    <div class="col-md-4">{% if item_count > 0 %}<h2>Buy</h2>{% endif %}</div>
+</div>
+    {% if item_count > 2 %}
+        <h2>Не советую вам брать столько вещей... </h2>
+    {% elif item_count < 1 %}
+        <h2>Ничего не купили.... как же так, идите к каталогу.</h2>
+    {% endif %}
+      {% for item in items %}
+        <div class="row">
+            <hr>
+            {% with good=item.good %}
+                <div class="col-md-3"><img src="{% thumbnail good.image 150x100 %}"></div>
+                <div class="col-md-3">{{ good.name }}</div>
+                <div class="col-md-4">{{good.description}}</div>
+                <div class="col-md-2">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="remove" name="input">
+                        <input type="hidden" value="{{ item.id}}" name="item_id">
+                        <input type="submit" value="Remove" id='submbut'>
+                    </form>
+                </div>
+            {% endwith %}
+            <hr>
+        </div>
+      {% endfor %}
+
+<hr>
+<a href="{% url 'catalog' %}">Back to catalog</a>
+    <hr>
+{% endblock %}

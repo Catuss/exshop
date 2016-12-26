@@ -1,0 +1,25 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block main %}
+<div class="row slogan">
+    <div class="col-md-8 Lucius_word">
+        <h1 class="lw text-center">Welcome to the <strong>Needful Things</strong></h1>
+        <h2 class="lw text-center">My name is Lucius Needful, and this is my antique shop</h2>
+        <hr>
+        <h3 class="lw text-left">
+                <p>What you search? Monkey paw? Antique dolls? Magic lamp, or, maybe Love potion? Something else?...</p>
+            <p>Use the search form in navbar, or look in the <a href="{% url 'catalog' %}">catalog</a>. There you will find a lot of different things. Choose, add to <a href="{% url 'cart' %}">cart</a> and buy.</p> 
+            <p>I'm sure, you'll find something that will interest you.</p>
+                
+        </h3>
+        <hr>
+        <h4 class="lw">Not satisfied with the service? Goods was delivered for a long time? Purchased item crippled you, or your family?  Leave feedback in the <a href="{% url 'guestbook' %}">guest book</a></h4>
+
+    </div>
+    <div class="col-md-4 Lucius_img">
+        <img  src="{% static 'static/image/Lucius_0.png' %}" id="main_luc">
+    </div>
+</div>
+
+{% endblock %}
