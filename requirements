@@ -1,5 +1,3 @@
 django==1.10.3
 pillow==3.4.2
-precise_bbcode==1.2.6
-taggit==0.21.3
 easy_thumbnails==2.3
