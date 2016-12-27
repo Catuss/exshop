@@ -19,9 +19,8 @@ class CartItem(models.Model):
 
 
 class Order(models.Model):
-
     order_location = models.CharField(max_length=200)
     order_name = models.CharField(max_length=200)
     order_email = models.EmailField()
     order_phone_number = models.CharField(max_length=20)
-    order_good_id = models.CharField(max_length=20)
+    order_goods = models.CharField(max_length=20)

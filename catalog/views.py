@@ -17,7 +17,7 @@ class GoodListView(Cart_Number_Mixin,  ListView):
     """ Контроллер вывода списка товаров """
     model = Good
     template_name = 'catalog.html'
-    paginate_by = 12
+    paginate_by = 1
     allow_empty = True
     sort_order = 'name'
 

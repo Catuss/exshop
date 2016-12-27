@@ -8,19 +8,19 @@
 	</div>
 	<div class="col-md-6 detail_info">
 		<h2 class="thing_name">{{ object.name }}</h2>
-		<h3>
-			<p class="thing_desc">{{ object.description }}</p>
+		<h3 class="thing_desc">
+			{{ object.description }}
 		</h3>
-		<h4>
-			<p class="thing_text">{{ object.content }}</p>
+		<h4 class="thing_text">
+			<p class="lw">{{ object.content }}</p>
 		</h4>
 		<form action="" method="post">
 			{% csrf_token %}
 			{% include 'generic/form.html' %}
-			<input type="submit" value="Добавить в корзину">
+			<input type="submit" value="To cart!">
 		</form>
         <hr>
-		<a href="{% url 'catalog' %}">Назад</a>
+		<a href="{% url 'catalog' %}">Back to catalog</a>
 	</div>
 </div>
 {% endblock %}

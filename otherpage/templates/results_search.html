@@ -2,26 +2,33 @@
 {% load staticfiles %}
 {% load thumbnail %}
 {% block main %}
-{% if results.count < 1 %}
-<div class="row">
-	<div class="col-md-12">
-		{% include 'generic/negative_search.html' %}
-	</div>
-</div>
-{% else %}
-<div class="row">
-{% for object in results %}
-	{% if forloop.counter0 in  numbs %}
-		</div> {# начало следующей строки #}
-		<div class="row">
-	{% endif %}
-	<div class="col-md-3 item">
-		<div class="img">
-			<img class="item_image" title="{{object.description}}" src="{% thumbnail object.image 'base' %}">
-		</div>
-		<a href="{% url 'good_detail' pk=object.pk %}"><p class="item_name">{{ object.name }}</p></a>
-	</div>
-{% endfor %}
-</div>
-{% endif %}
-{% endblock %}
+{% if results.count > 0 %}
+<div class="container-fluid cat_list">
+    <div class="row">
+        {% for object in results %}
+        {% if forloop.counter0 in  numbs %}
+    </div> {# начало следующей строки #}
+    <div class="row">
+        {% endif %}
+        <div class="col-md-3 item">
+            <div class="img">
+                <img class="item_image" title="{{object.description}}" src="{% thumbnail object.image 'base' %}">
+            </div>
+            <a href="{% url 'good_detail' pk=object.pk %}"><p class="item_name">{{ object.name }}</p></a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+        <div class="row">
+            <div class="col-md-4" id="grLuc">
+                <img  src="{% static 'static/image/Lucius_3.png' %}" id='grus_luc_img'>
+            </div>
+            <div class="col-md-8">
+                <h2 class="lw">No results were found</h2>
+                <h3 class="lw">Change the search terms, and all will turn out.</h3>
+            </div>
+            {% endif %}
+        </div>
+    <hr>
+    <a href="{% url 'catalog' %}">To catalog</a>
+    {% endblock %}

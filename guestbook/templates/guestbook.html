@@ -1,20 +1,20 @@
 {% extends 'main.html' %}
-{% load staticfiles %}
+{% load thumbnail %}
 
 {% block title %}Гостевая книга{% endblock %}
 
 {% block main %}
 <div class="row guestbook_slug">
 
-    <div class="col-md-3 guest_img">
-        <img  src="{% static 'static/image/Lucius_2.png' %}" id='guest_img'>
+    <div class="col-md-3 left_img">
+        <img  src="{% thumbnail 'Luc/Luc1.png' 205x400 %}" id='guest_img'>
     </div>
-    <div class="col-md-9 guest_word">
+    <div class="col-md-9 right_word">
         <h2 class="lw">Leave your feedback, comments, complaints, and other crap here</h2>
         <form action="" method="post" class="feed_form">
             {% include 'generic/form.html' %}
             <div class="submit-button">
-                <input type="submit" value="Добавить">
+                <input type="submit" value="Add">
             </div>
         </form>
     </div>

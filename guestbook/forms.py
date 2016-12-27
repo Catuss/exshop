@@ -7,6 +7,6 @@ class GuestBookForm(forms.ModelForm):
     class Meta:
         model = GuestBook
         fields = ['user', 'content', 'honeypot']
-    user = forms.CharField(max_length=20, label='Пользователь')
-    content = forms.CharField(widget=forms.Textarea, label='Содержание')
+    user = forms.CharField(max_length=20, label='Name')
+    content = forms.CharField(widget=forms.Textarea, label='Text')
     honeypot = forms.CharField(required=False, label='Ловушка для спамеров')

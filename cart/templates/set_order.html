@@ -1,0 +1,22 @@
+{% extends 'main.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block main %}
+<div class="row">
+
+    <div class="col-md-4 left_img">
+        <img src="{% thumbnail 'Luc/Luc3.png' 300x300 %}" id="Luc_1">
+    </div>
+
+    <div class="col-md-8 right_word">
+        <h2 class="lw">Last step</h2>
+        <h3 class="lw">Complete this form, and we wil contact you...</h3>
+        <form action="" method="post">
+            {% include 'generic/form.html' %}
+            <input type="submit" value="Buy">
+        </form>
+    </div>
+</div>
+<hr>
+<a href="{% url 'cart' %}">Back to cart</a>
+    {% endblock %}

@@ -15,42 +15,41 @@
             </span>
 
         </div>
-        <div class="col-md-8 coolCitat">
+        <div class="col-md-8" id="not_with_money">
             <div class="area"><h3 class="lw" id="marksay">"Nobody ever pays here...not with money</h3></div>
-            {% if cart_count > 0 %}
-                <div class="cart_item" title="{% for i in cart_item %}{{ i }}  {% endfor %}">
-                    <a href="{% url 'cart' %}"><h4>Товаров в корзине: {{cart_count}}</h4></a>
-                </div>
-            {% else %}
-                <div class="cart_item">
-                    <h4>You <a href="{% url 'cart' %}">cart</a> is empty :(</h4>
-                </div>
-                   
-            {% endif %}
+                {% if cart_count > 0 and not is_cart %}
+                    <div class="cart_item" title="{% for i in cart_item %} - {{ i }} - {% endfor %}">
+                        <h4>Goods in your <a href="{% url 'cart' %}" class="red_link">cart</a>: {{item_count}}</h4>
+                    </div>
+                {% elif cart_count < 1 and not is_cart %}
+                    <div class="cart_item">
+                        <h4>You <a href="{% url 'cart' %}" class="red_link">cart</a> is empty :(</h4>
+                    </div>
+                {% endif %}
         </div>
     </div>
 
     <div class="row site_header" id="navbar">
 
         <div class="col-md-2 nav_div">
-            <p class="navbar_link"><a href="{% url 'main_page' %}" >Main</a></p>
+            <p class="navbar_link "><a href="{% url 'main_page' %}" class="red_link">Main</a></p>
         </div>
 
         <div class="col-md-2 nav_div">
-            <p class="navbar_link"><a href="{% url 'catalog' %}" >Catalogue</a></p>
+            <p class="navbar_link "><a href="{% url 'catalog' %}" class="red_link">Catalogue</a></p>
         </div>
 
         <div class="col-md-2 nav_div">
-            <p class="navbar_link"><a href="{% url 'guestbook' %}" >Feedback</a></p>
+            <p class="navbar_link "><a href="{% url 'guestbook' %}" class="red_link">Feedback</a></p>
         </div>
 
         <div class="col-md-2 nav_div">
-            <p class="navbar_link"><a href="{% url 'contact' %}" >Contacts</a></p>
+            <p class="navbar_link "><a href="{% url 'contact' %}" class="red_link">Contacts</a></p>
         </div>
-        <div class="col-md-4 head_search">
+        <div class="col-md-4 head_search ">
             <form action="{% url 'results' %}" id="sform" class="form form-inline">
-                <input type="text" name="search" placeholder="Need something?" id="stext">
-                <input type="submit" value="Search" id="sinput">
+                <input  type="text" name="search" placeholder="Need something?" id="stext">
+                <input class="btn btn-default btn-xs" type="submit" value="Search" id="sinput">
             </form>
         </div>
     </div>
@@ -58,14 +57,15 @@
 <div class="conteiner-fluid main">
     {% block main %}
     {% endblock %}
-<!--     <div class="row">
+    <hr>
+     <div class="row">
         <div class="col-md-12">
             <div class="foot">
-                <h4 class='lw'>Github link: <a href="https://github.com/Catuss/exshop">https://github.com/Catuss/exshop</a></h>
+                <h4 class='lw'>Github link: <a href="https://github.com/Catuss/exshop" class="red_link">https://github.com/Catuss/exshop</a></h>
             </div>
         </div>
     </div>
-</div> -->
+</div>
 <script src="{% static 'static/js/cart_item.js' %}"></script>
 <script src="{% static 'static/js/hide_navbar.js' %}"></script>
 

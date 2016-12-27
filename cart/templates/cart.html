@@ -1,19 +1,35 @@
 {% extends "main.html" %}
 {% load thumbnail %}
+{% load staticfiles %}
 
 {% block title %}
   Ваша корзина товаров
 {% endblock %}
 
 {% block main %}
+{% if item_count > 0 %}
+    <div class="row">
+        <div class="col-md-8"><h2>In you're cart {{item_count}} item</h2></div>
+        <div class="col-md-4"><h2><a href="{% url 'order' %}">Buy</a></h2></div>
+    </div>
+{% endif %}
+
+{% if item_count > 2 %}
+    <h2 class="lw">You have selected too many goods, it can be dangerous ...</h2>
+{% elif item_count < 1 %}
 <div class="row">
-    <div class="col-md-8"><h1>In you're cart {{item_count}} item</h1></div>
-    <div class="col-md-4">{% if item_count > 0 %}<h2>Buy</h2>{% endif %}</div>
+    <div class="col-md-4" id="grLuc">
+        <img  src="{% static 'static/image/Lucius_3.png' %}" id='grus_luc_img'>
+    </div>
+    <div class="col-md-8">
+        <h2 class="lw">Your cart is empty</h2>
+        <h3 class="lw">Did not find what you need?</h3>
+        <h4 class="lw">
+            See in the <a href="{% url 'catalog' %}" class="red_link">catalog</a>,
+            or write what you need in the <a href="{% url 'guestbook' %}" class="red_link">guestbook</a></h4>
+    </div>
 </div>
-    {% if item_count > 2 %}
-        <h2>Не советую вам брать столько вещей... </h2>
-    {% elif item_count < 1 %}
-        <h2>Ничего не купили.... как же так, идите к каталогу.</h2>
+
     {% endif %}
       {% for item in items %}
         <div class="row">
@@ -37,5 +53,4 @@
 
 <hr>
 <a href="{% url 'catalog' %}">Back to catalog</a>
-    <hr>
 {% endblock %}

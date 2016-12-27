@@ -11,7 +11,7 @@
 			<div class="row">
 		{% endif %}
 		<div class="col-md-3 item">
-			<div class="img">
+			<div class="img_item_div">
 				<img class="item_image" title="{{object.description}}" src="{% thumbnail object.image 'base' %}">
 			</div>
 			<a href="{% url 'good_detail' pk=object.pk %}"><p class="item_name">{{ object.name }}</p></a>
